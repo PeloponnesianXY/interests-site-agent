@@ -6,38 +6,45 @@
   <title>My Music Project</title>
     <meta name="description" content="A personal map of music I love across genres—blues, metal, EDM, and more.">
     <meta name="google-site-verification" content="Rc-DzGfwk23URks2xt7vQMyPSqb8E1H-ICHijmgOGcE" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body style="background:#111; color:white; font-family:Arial; padding:40px;">
+<body>
 
-  <h1>My Music Project</h1>
-   <p><em>Test update from my feature branch.</em></p>
+<h2>My Music Project</h2>
 
-  <h2>Classic Rock</h2>
+<section class="styles-grid">
 
-  <p><strong>Fleetwood Mac – Dreams </strong></p>
+  <div class="style-tile">
+    <h3>Classic Rock</h3>
+    <p>Timeless anthems</p>
 
-  <iframe style="border-radius:12px"
-  src="https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIavz"
-  width="100%" height="152"
-  frameborder="0"
-  allowfullscreen=""
-  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-</iframe>
+    <div class="style-embed">
+      <iframe style="border-radius:12px"
+        src="https://open.spotify.com/embed/track/0ofHAoxe9vBkTCp2UQIavz"
+        width="100%" height="152" 
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
 
+  <div class="style-tile">
+    <h3>Modern Indie</h3>
+    <p>High energy</p>
 
-  <h2>Workout Mode</h2>
+    <div class="style-embed">
+      <iframe style="border-radius:12px" 
+      src="https://open.spotify.com/embed/track/1GxLgrcumcN3TpWnrYQ9pV?utm_source=generator" 
+      width="100%" 
+      height="152" 
+      frameBorder="0" 
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+      loading="lazy">
+    </iframe>
+      
+    </div>
+  </div>
 
-  <p><strong>Metallica – Enter Sandman</strong></p>
-
- <iframe data-testid="embed-iframe" 
- style="border-radius:12px" 
- src="https://open.spotify.com/embed/track/3VqHuw0wFlIHcIPWkhIbdQ?utm_source=generator" 
- width="100%" 
- height="152" 
- frameBorder="0" 
- allowfullscreen="" 
- allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
- loading="lazy">
-</iframe>
-
+</section>
