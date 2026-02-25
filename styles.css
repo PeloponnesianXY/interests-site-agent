@@ -5,6 +5,26 @@ body {
   padding: 40px;
 }
 
+.top-nav {
+  display: flex;
+  gap: 16px;
+  margin: 8px 0 20px;
+}
+
+.top-nav a,
+.inline-link {
+  color: #d6d6d6;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+
+.top-nav a:hover,
+.inline-link:hover {
+  color: #ffffff;
+  border-bottom-color: #666;
+}
+
 .styles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
