@@ -17,12 +17,18 @@ body {
   text-decoration: none;
   border-bottom: 1px solid transparent;
   padding-bottom: 1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .top-nav a:hover,
 .inline-link:hover {
   color: #ffffff;
   border-bottom-color: #666;
+}
+
+.top-nav a.active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
 }
 
 .styles-grid {
@@ -73,4 +79,24 @@ body {
 .style-tile:hover .style-embed {
   max-height: 520px;
   opacity: 1;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 20px;
+  }
+
+  .top-nav {
+    gap: 12px;
+    margin: 6px 0 16px;
+    flex-wrap: wrap;
+  }
+
+  .styles-grid {
+    gap: 14px;
+  }
+
+  .style-tile {
+    padding: 16px;
+  }
 }
