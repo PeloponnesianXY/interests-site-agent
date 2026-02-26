@@ -66,7 +66,7 @@ def load_store(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {"sections": []}
 
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = json.loads(path.read_text(encoding="utf-8-sig"))
     if not isinstance(data, dict) or not isinstance(data.get("sections"), list):
         raise ValueError("music.json must be an object with a 'sections' list.")
     return data

@@ -2,7 +2,20 @@
   "sections": [
     {
       "name": "80s Italian Pop",
-      "songs": []
+      "songs": [
+        {
+          "title": "Felicit\u00e0",
+          "url": "https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator"
+        },
+        {
+          "title": "Ci sar\u00e0",
+          "url": "https://open.spotify.com/embed/track/1dgNG7Ze3PqXTIq9yqSihX?utm_source=generator"
+        },
+        {
+          "title": "Su Di Noi",
+          "url": "https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "80s Rock",
@@ -86,23 +99,6 @@
     {
       "name": "Rap",
       "songs": []
-    },
-    {
-      "name": "80s Italian Rock",
-      "songs": [
-        {
-          "title": "Felicit\u00e0",
-          "url": "https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator"
-        },
-        {
-          "title": "Ci sar\u00e0",
-          "url": "https://open.spotify.com/embed/track/1dgNG7Ze3PqXTIq9yqSihX?utm_source=generator"
-        },
-        {
-          "title": "Su Di Noi",
-          "url": "https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator"
-        }
-      ]
     }
   ]
 }
