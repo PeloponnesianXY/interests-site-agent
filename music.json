@@ -6,7 +6,20 @@
     },
     {
       "name": "80s Rock",
-      "songs": []
+      "songs": [
+        {
+          "title": "Friday I'm in Love",
+          "url": "https://open.spotify.com/embed/track/263aNAQCeFSWipk896byo6?utm_source=generator"
+        },
+        {
+          "title": "Don't You (Forget About Me)",
+          "url": "https://open.spotify.com/embed/track/3fH4KjXFYMmljxrcGrbPj9?utm_source=generator"
+        },
+        {
+          "title": "Hold Back the Rain - 2009 Remaster",
+          "url": "https://open.spotify.com/embed/track/25fQaP5GWQXhqHeLkcdPzO?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "90s Rock",
@@ -73,6 +86,23 @@
     {
       "name": "Rap",
       "songs": []
+    },
+    {
+      "name": "80s Italian Rock",
+      "songs": [
+        {
+          "title": "Felicit\u00e0",
+          "url": "https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator"
+        },
+        {
+          "title": "Ci sar\u00e0",
+          "url": "https://open.spotify.com/embed/track/1dgNG7Ze3PqXTIq9yqSihX?utm_source=generator"
+        },
+        {
+          "title": "Su Di Noi",
+          "url": "https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator"
+        }
+      ]
     }
   ]
 }
