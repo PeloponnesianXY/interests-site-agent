@@ -30,17 +30,14 @@ body.page-music {
 body.page-barcelona {
   background-image:
     linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.35),
-      rgba(0, 0, 0, 0.35)
+      120deg,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.42) 50%,
+      rgba(0, 0, 0, 0.8) 100%
     ),
-    repeating-linear-gradient(
-      90deg,
-      #8a1538 0,
-      #8a1538 58px,
-      #004d98 58px,
-      #004d98 116px
-    );
+    url("16034074144863-4055930563.jpg");
+  background-position: center top;
+  background-attachment: fixed;
 }
 
 .top-nav {
