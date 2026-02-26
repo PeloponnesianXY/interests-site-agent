@@ -40,6 +40,19 @@ body.page-barcelona {
   background-attachment: fixed;
 }
 
+body.page-books {
+  background-image:
+    linear-gradient(
+      120deg,
+      rgba(12, 8, 4, 0.78) 0%,
+      rgba(12, 8, 4, 0.48) 48%,
+      rgba(12, 8, 4, 0.82) 100%
+    ),
+    url("61tOBwV99TL._AC_UF894,1000_QL80_.jpg");
+  background-position: center top;
+  background-attachment: fixed;
+}
+
 .top-nav {
   display: flex;
   gap: 16px;
