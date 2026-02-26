@@ -1,6 +1,22 @@
 {
   "sections": [
     {
+      "name": "80s Italian Pop",
+      "songs": []
+    },
+    {
+      "name": "80s Rock",
+      "songs": []
+    },
+    {
+      "name": "90s Rock",
+      "songs": []
+    },
+    {
+      "name": "Blues",
+      "songs": []
+    },
+    {
       "name": "Classic Rock",
       "songs": [
         {
@@ -26,6 +42,10 @@
       ]
     },
     {
+      "name": "Hair Metal",
+      "songs": []
+    },
+    {
       "name": "Modern Indie",
       "songs": [
         {
@@ -45,6 +65,14 @@
           "url": "https://open.spotify.com/embed/track/3skn2lauGk7Dx6bVIt5DVj?utm_source=generator"
         }
       ]
+    },
+    {
+      "name": "Punk Pop",
+      "songs": []
+    },
+    {
+      "name": "Rap",
+      "songs": []
     }
   ]
 }

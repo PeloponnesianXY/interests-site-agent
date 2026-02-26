@@ -216,7 +216,7 @@ def render_music_block(state: dict[str, Any]) -> dict[str, Any]:
             lines.append(
                 "        allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\""
             )
-            lines.append("        loading=\"lazy\"></iframe>")
+            lines.append("        loading=\"lazy\" scrolling=\"no\"></iframe>")
             lines.append("")
 
         lines.append("    </div>")

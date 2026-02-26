@@ -118,6 +118,13 @@ body.page-books {
   opacity: 1;
 }
 
+.spotify {
+  display: block;
+  width: 100%;
+  border: 0;
+  overflow: hidden;
+}
+
 @media (max-width: 640px) {
   body {
     padding: 20px;
