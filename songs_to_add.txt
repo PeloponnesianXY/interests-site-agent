@@ -1,0 +1,7 @@
+# One song per line.
+# Format A: Section | Spotify URL/Embed URL/URI
+# Format B: Section | Song Title | Spotify URL/Embed URL/URI
+
+Classic Rock | Starman - 2012 Remaster | https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq?si=6fcdbbd4f3ac4203
+Modern Indie | Starlight | https://open.spotify.com/track/3skn2lauGk7Dx6bVIt5DVj?si=ba239b3c5ef34fc8
+Classic Rock | Gimme Shelter | https://open.spotify.com/track/6H3kDe7CGoWYBabAeVWGiD?si=6bdbc3da8c1f4944

@@ -91,31 +91,20 @@ body.page-barcelona {
 
 .style-embed {
   margin-top: 12px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-}
-
-.style-tile:hover .style-embed {
-  max-height: 200px;
-  opacity: 1;
-}
-
-.style-embed {
-  margin-top: 12px;
   display: grid;
   gap: 10px;
   padding-bottom: 2px;
 
   max-height: 0;
   overflow: hidden;
+  overflow-y: hidden;
   opacity: 0;
   transition: max-height 0.3s ease, opacity 0.3s ease;
 }
 
 .style-tile:hover .style-embed {
   max-height: 520px;
+  overflow-y: auto;
   opacity: 1;
 }
 

@@ -1,0 +1,50 @@
+{
+  "sections": [
+    {
+      "name": "Classic Rock",
+      "songs": [
+        {
+          "title": "Classic Rock 1",
+          "url": "https://open.spotify.com/embed/track/389QX9Q1eUOEZ19vtzzI9O?utm_source=generator"
+        },
+        {
+          "title": "Classic Rock 2",
+          "url": "https://open.spotify.com/embed/track/78dWfw6rMzKjfCct2pAKFG?utm_source=generator"
+        },
+        {
+          "title": "Classic Rock 3",
+          "url": "https://open.spotify.com/embed/track/6Vjk8MNXpQpi0F4BefdTyq?utm_source=generator"
+        },
+        {
+          "title": "Spotify Track 0pQskrTI",
+          "url": "https://open.spotify.com/embed/track/0pQskrTITgmCMyr85tb9qq?utm_source=generator"
+        },
+        {
+          "title": "Gimme Shelter",
+          "url": "https://open.spotify.com/embed/track/6H3kDe7CGoWYBabAeVWGiD?utm_source=generator"
+        }
+      ]
+    },
+    {
+      "name": "Modern Indie",
+      "songs": [
+        {
+          "title": "Modern Indie 1",
+          "url": "https://open.spotify.com/embed/track/1GxLgrcumcN3TpWnrYQ9pV?utm_source=generator"
+        },
+        {
+          "title": "Modern Indie 2",
+          "url": "https://open.spotify.com/embed/track/03y6MsaseYEO7DfwqsgcAI?utm_source=generator"
+        },
+        {
+          "title": "Modern Indie 3",
+          "url": "https://open.spotify.com/embed/track/5XeFesFbtLpXzIVDNQP22n?utm_source=generator"
+        },
+        {
+          "title": "Spotify Track 3skn2lau",
+          "url": "https://open.spotify.com/embed/track/3skn2lauGk7Dx6bVIt5DVj?utm_source=generator"
+        }
+      ]
+    }
+  ]
+}
