@@ -14,6 +14,14 @@
         {
           "title": "Su Di Noi",
           "url": "https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator"
+        },
+        {
+          "title": "Piccolo Amore",
+          "url": "https://open.spotify.com/embed/track/2LexhomCk1jo8hXYl4DeoO?utm_source=generator"
+        },
+        {
+          "title": "Firenze Santa Maria Novella",
+          "url": "https://open.spotify.com/embed/track/03Q5UOgimyI86r1ufpWSQs?utm_source=generator"
         }
       ]
     },
@@ -69,7 +77,12 @@
     },
     {
       "name": "Hair Metal",
-      "songs": []
+      "songs": [
+        {
+          "title": "Test Song",
+          "url": "https://open.spotify.com/embed/track/05RgAMGypEvqhNs5hPCbMS?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "Modern Indie",
@@ -99,6 +112,15 @@
     {
       "name": "Rap",
       "songs": []
+    },
+    {
+      "name": "Unsorted",
+      "songs": [
+        {
+          "title": "Test Song",
+          "url": "https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=generator"
+        }
+      ]
     }
   ]
 }
