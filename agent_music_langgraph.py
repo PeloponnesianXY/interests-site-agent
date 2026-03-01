@@ -7,11 +7,24 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, TypedDict
 
+import books_ops
+import music_ops
+from books_tools import AmazonUrlNormalizerTool, BookAdderTool, BookSectionCatalogTool, BookSiteRendererTool
 from langchain_openai import ChatOpenAI
 from langgraph.graph import END, START, StateGraph
 from pydantic import BaseModel, Field
 
-import music_ops
+from music_tools import SectionCatalogTool, SiteRendererTool, SongAdderTool, SpotifyUrlNormalizerTool
+
+
+SECTION_CATALOG_TOOL = SectionCatalogTool()
+SPOTIFY_URL_NORMALIZER_TOOL = SpotifyUrlNormalizerTool()
+SONG_ADDER_TOOL = SongAdderTool()
+SITE_RENDERER_TOOL = SiteRendererTool()
+BOOK_SECTION_CATALOG_TOOL = BookSectionCatalogTool()
+AMAZON_URL_NORMALIZER_TOOL = AmazonUrlNormalizerTool()
+BOOK_ADDER_TOOL = BookAdderTool()
+BOOK_SITE_RENDERER_TOOL = BookSiteRendererTool()
 
 
 class ExtractedItem(BaseModel):
@@ -27,29 +40,37 @@ class ExtractionPayload(BaseModel):
 class AgentState(TypedDict, total=False):
     request_text: str
     extracted_items: list[dict[str, str]]
-    valid_items: list[dict[str, str]]
+    valid_items: list[dict[str, Any]]
     invalid_items: list[dict[str, Any]]
     results: list[dict[str, Any]]
     render_result: dict[str, Any]
     model_name: str
     dry_run: bool
     extract_error: str
+    token_usage: dict[str, int]
 
 
-def _make_extraction_messages(request_text: str, section_names: list[str]) -> list[tuple[str, str]]:
-    section_csv = ", ".join(section_names) if section_names else "(none)"
+def _make_extraction_messages(
+    request_text: str, music_sections: list[str], book_sections: list[str]
+) -> list[tuple[str, str]]:
+    music_csv = ", ".join(music_sections) if music_sections else "(none)"
+    books_csv = ", ".join(book_sections) if book_sections else "(none)"
     system_prompt = (
         "You are an extraction engine. Output STRICT JSON only. "
         "No markdown, no prose. "
         "Return a JSON object with exactly one key: items. "
         "items must be an array of objects with exactly keys: section, title, url. "
-        "Known sections: "
-        f"{section_csv}. "
-        "If section is missing, choose the closest known section; otherwise use Unsorted. "
+        "Known music sections: "
+        f"{music_csv}. "
+        "Known books sections: "
+        f"{books_csv}. "
+        "If section is missing for music, choose the closest known music section; otherwise use Unsorted. "
+        "For books, section may be blank because it can be inferred from Amazon taxonomy downstream. "
+        "For books, title may be blank because it can be inferred from Amazon metadata downstream. "
         "If URL is missing, set url to an empty string."
     )
     user_prompt = (
-        "Extract songs from this request and return strict JSON:\n\n"
+        "Extract music and/or books from this request and return strict JSON:\n\n"
         f"{request_text}"
     )
     return [("system", system_prompt), ("user", user_prompt)]
@@ -62,18 +83,40 @@ def extract_items(state: AgentState) -> AgentState:
         temperature=0,
     )
 
-    section_names = music_ops.get_section_names()
-    messages = _make_extraction_messages(state["request_text"], section_names)
+    music_sections = SECTION_CATALOG_TOOL.list_sections()
+    book_sections = BOOK_SECTION_CATALOG_TOOL.list_sections()
+    messages = _make_extraction_messages(state["request_text"], music_sections, book_sections)
 
     next_state: AgentState = dict(state)
     next_state["extract_error"] = ""
+    next_state["token_usage"] = {}
 
     try:
-        structured_llm = llm.with_structured_output(ExtractionPayload, method="json_schema", strict=True)
-        payload = structured_llm.invoke(messages)
+        structured_llm = llm.with_structured_output(
+            ExtractionPayload, method="json_schema", strict=True, include_raw=True
+        )
+        response = structured_llm.invoke(messages)
+        payload = response.get("parsed")
+        raw_response = response.get("raw")
+
+        usage = {}
+        if hasattr(raw_response, "usage_metadata") and raw_response.usage_metadata:
+            usage = {
+                "input_tokens": int(raw_response.usage_metadata.get("input_tokens", 0)),
+                "output_tokens": int(raw_response.usage_metadata.get("output_tokens", 0)),
+                "total_tokens": int(raw_response.usage_metadata.get("total_tokens", 0)),
+            }
+        elif hasattr(raw_response, "response_metadata"):
+            token_usage = (raw_response.response_metadata or {}).get("token_usage", {})
+            usage = {
+                "input_tokens": int(token_usage.get("prompt_tokens", 0)),
+                "output_tokens": int(token_usage.get("completion_tokens", 0)),
+                "total_tokens": int(token_usage.get("total_tokens", 0)),
+            }
+        next_state["token_usage"] = usage
 
         items: list[dict[str, str]] = []
-        for item in payload.items:
+        for item in payload.items if payload else []:
             items.append(
                 {
                     "section": str(item.section),
@@ -91,7 +134,7 @@ def extract_items(state: AgentState) -> AgentState:
 
 
 def validate_items(state: AgentState) -> AgentState:
-    valid_items: list[dict[str, str]] = []
+    valid_items: list[dict[str, Any]] = []
     invalid_items: list[dict[str, Any]] = []
 
     if state.get("extract_error"):
@@ -106,24 +149,37 @@ def validate_items(state: AgentState) -> AgentState:
         title = str(item.get("title", "")).strip()
         url = str(item.get("url", "")).strip()
 
-        if not section:
-            invalid_items.append({"item": item, "reason": f"Item {idx + 1}: section is required."})
-            continue
-
-        if not title:
-            invalid_items.append({"item": item, "reason": f"Item {idx + 1}: title is required."})
-            continue
-
         if not url:
             invalid_items.append({"item": item, "reason": f"Item {idx + 1}: url is required."})
             continue
 
-        ok, detail = music_ops.validate_spotify_embed_url(url)
-        if not ok:
-            invalid_items.append({"item": item, "reason": f"Item {idx + 1}: {detail}"})
+        try:
+            canonical_url = SPOTIFY_URL_NORMALIZER_TOOL.normalize(url)
+            if not section:
+                invalid_items.append({"item": item, "reason": f"Item {idx + 1}: section is required for music URLs."})
+                continue
+            parsed = music_ops.parse_spotify_url(canonical_url)
+            if not parsed:
+                raise ValueError("Could not parse Spotify URL.")
+            kind, item_id, _ = parsed
+            final_title = title or music_ops.fetch_spotify_title(kind, item_id) or music_ops.default_title(kind, item_id)
+            valid_items.append({"item_type": "music", "section": section, "title": final_title, "url": canonical_url})
             continue
+        except ValueError as exc:
+            spotify_error = str(exc)
 
-        valid_items.append({"section": section, "title": title, "url": detail})
+        try:
+            canonical_url = AMAZON_URL_NORMALIZER_TOOL.normalize(url)
+            final_title = title or books_ops.fetch_book_title(canonical_url) or books_ops.default_title(canonical_url)
+            valid_items.append({"item_type": "book", "section": section, "title": final_title, "url": canonical_url})
+        except ValueError as exc:
+            invalid_items.append(
+                {
+                    "item": item,
+                    "reason": f"Item {idx + 1}: invalid URL for supported content (spotify/amazon). "
+                    f"Spotify error: {spotify_error}. Amazon error: {exc}",
+                }
+            )
 
     next_state: AgentState = dict(state)
     next_state["valid_items"] = valid_items
@@ -134,12 +190,20 @@ def validate_items(state: AgentState) -> AgentState:
 def apply_upserts(state: AgentState) -> AgentState:
     results: list[dict[str, Any]] = []
     for item in state.get("valid_items", []):
-        result = music_ops.upsert_song(
-            section=item["section"],
-            title=item["title"],
-            url=item["url"],
-            dry_run=bool(state.get("dry_run", False)),
-        )
+        if item.get("item_type") == "book":
+            result = BOOK_ADDER_TOOL.add_book(
+                section=item["section"],
+                title=item["title"],
+                book_url=item["url"],
+                dry_run=bool(state.get("dry_run", False)),
+            )
+        else:
+            result = SONG_ADDER_TOOL.add_song(
+                section=item["section"],
+                title=item["title"],
+                embed_url=item["url"],
+                dry_run=bool(state.get("dry_run", False)),
+            )
         results.append(result)
 
     next_state: AgentState = dict(state)
@@ -148,7 +212,17 @@ def apply_upserts(state: AgentState) -> AgentState:
 
 
 def render(state: AgentState) -> AgentState:
-    render_result = music_ops.render_site(dry_run=bool(state.get("dry_run", False)))
+    music_render_result = SITE_RENDERER_TOOL.render(dry_run=bool(state.get("dry_run", False)))
+    books_render_result = BOOK_SITE_RENDERER_TOOL.render(dry_run=bool(state.get("dry_run", False)))
+    render_result = {
+        "status": "ok"
+        if music_render_result.get("status") == "ok" and books_render_result.get("status") == "ok"
+        else "error",
+        "changed": bool(music_render_result.get("changed")) or bool(books_render_result.get("changed")),
+        "reason": "",
+        "music": music_render_result,
+        "books": books_render_result,
+    }
     next_state: AgentState = dict(state)
     next_state["render_result"] = render_result
     return next_state
@@ -183,6 +257,21 @@ def summarize(state: AgentState) -> AgentState:
     changed = rr.get("changed", False)
     reason = rr.get("reason", "")
     print(f"Render: status={status}, changed={changed}, reason={reason}")
+    if isinstance(rr.get("music"), dict):
+        mr = rr["music"]
+        print(f"Render music: status={mr.get('status')}, changed={mr.get('changed')}, reason={mr.get('reason', '')}")
+    if isinstance(rr.get("books"), dict):
+        br = rr["books"]
+        print(f"Render books: status={br.get('status')}, changed={br.get('changed')}, reason={br.get('reason', '')}")
+
+    token_usage = state.get("token_usage", {})
+    if token_usage:
+        print(
+            "Token usage: "
+            f"input={token_usage.get('input_tokens', 0)}, "
+            f"output={token_usage.get('output_tokens', 0)}, "
+            f"total={token_usage.get('total_tokens', 0)}"
+        )
 
     return state
 
@@ -236,6 +325,7 @@ def main() -> None:
         "model_name": args.model,
         "dry_run": bool(args.dry_run),
         "extract_error": "",
+        "token_usage": {},
     }
 
     app.invoke(initial_state)

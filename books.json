@@ -1,0 +1,54 @@
+{
+  "sections": [
+    {
+      "name": "Fiction",
+      "books": [
+        {
+          "title": "Three Men in a Boat (To Say Nothing of the Dog)",
+          "url": "https://a.co/d/0c2mGarn",
+          "cover_url": "https://m.media-amazon.com/images/I/61yz7dgodQL._SL1360_.jpg",
+          "author": "Jerome K. Jerome"
+        },
+        {
+          "title": "Roadside Picnic",
+          "url": "https://a.co/d/0ciPKO1L",
+          "cover_url": "https://m.media-amazon.com/images/I/61LTNLuJuiL._SL1000_.jpg",
+          "author": "Arkady Strugatsky"
+        },
+        {
+          "title": "The Good Soldier Svejk and His Fortunes in the World War",
+          "url": "https://a.co/d/09UI7xUn",
+          "cover_url": "https://m.media-amazon.com/images/I/81HQ9iYNM8L._SL1500_.jpg",
+          "author": "Jaroslav Hasek"
+        },
+        {
+          "title": "Amazon Book 0jeGhPQN",
+          "url": "https://a.co/d/0jeGhPQN"
+        }
+      ]
+    },
+    {
+      "name": "Non-fiction",
+      "books": [
+        {
+          "title": "Reasons and Persons",
+          "url": "https://a.co/d/07pzkLHQ",
+          "cover_url": "https://m.media-amazon.com/images/I/91P1jZV4HBL._SL1500_.jpg",
+          "author": "Derek Parfit"
+        },
+        {
+          "title": "Life Ascending: The Ten Great Inventions of Evolution",
+          "url": "https://a.co/d/0eWzmjln",
+          "cover_url": "https://m.media-amazon.com/images/I/71JXLQ3gKUL._SL1200_.jpg",
+          "author": "Nick Lane"
+        },
+        {
+          "title": "The Epigenetics Revolution",
+          "url": "https://a.co/d/09vuAB8y",
+          "cover_url": "https://m.media-amazon.com/images/I/61zgbfLrD5L._SL1002_.jpg",
+          "author": "Nessa Carey"
+        }
+      ]
+    }
+  ]
+}

@@ -48,7 +48,16 @@
     },
     {
       "name": "Blues",
-      "songs": []
+      "songs": [
+        {
+          "title": "Bring It On Home To ME",
+          "url": "https://open.spotify.com/embed/track/4Vfgc4BdSKM2hRlkaRFc9C?utm_source=generator"
+        },
+        {
+          "title": "The Thrill is Gone",
+          "url": "https://open.spotify.com/embed/track/3cg0dJfrQB66Qf2YthPb6G?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "Classic Rock",
@@ -81,6 +90,10 @@
         {
           "title": "Test Song",
           "url": "https://open.spotify.com/embed/track/05RgAMGypEvqhNs5hPCbMS?utm_source=generator"
+        },
+        {
+          "title": "Don't Know What You Got (Till It's Gone)",
+          "url": "https://open.spotify.com/embed/track/5QRs63VVKNaqUjg6XSSckM?utm_source=generator"
         }
       ]
     },
@@ -107,7 +120,20 @@
     },
     {
       "name": "Punk Pop",
-      "songs": []
+      "songs": [
+        {
+          "title": "Teenage Dirtbag",
+          "url": "https://open.spotify.com/embed/track/25FTMokYEbEWHEdss5JLZS?utm_source=generator"
+        },
+        {
+          "title": "My Own Worst Enemy",
+          "url": "https://open.spotify.com/embed/track/33iv3wnGMrrDugd7GBso1z?utm_source=generator"
+        },
+        {
+          "title": "4GiVcDqNQI0fc0yYuRGH9m",
+          "url": "https://open.spotify.com/embed/track/4GiVcDqNQI0fc0yYuRGH9m?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "Rap",
@@ -119,6 +145,23 @@
         {
           "title": "Test Song",
           "url": "https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=generator"
+        }
+      ]
+    },
+    {
+      "name": "Israeli Rock",
+      "songs": [
+        {
+          "title": "\u05d0\u05d4\u05d5\u05d1\u05ea\u05d9",
+          "url": "https://open.spotify.com/embed/track/3KjK86Zg2gKF9aij1GmHFk?utm_source=generator"
+        },
+        {
+          "title": "\u05e2\u05d5\u05e0\u05d5\u05ea",
+          "url": "https://open.spotify.com/embed/track/5mw0CuWqR4bBZ7OFFSCTMP?utm_source=generator"
+        },
+        {
+          "title": "\u05d9\u05d4\u05d9\u05d4 \u05e4\u05d9\u05e6\u05d5\u05e5",
+          "url": "https://open.spotify.com/embed/track/4HnvvY4arQ6MgKa38fZBL2?utm_source=generator"
         }
       ]
     }
