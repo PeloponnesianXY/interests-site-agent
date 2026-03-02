@@ -22,7 +22,7 @@ body.page-music {
       rgba(0, 0, 0, 0.45) 45%,
       rgba(0, 0, 0, 0.82) 100%
     ),
-    url("eddie-van-halen-close-up-guitar-strum-od7p7h7j68513i5b-3547135556.jpg");
+    url("bg-music.jpg");
   background-position: center top;
   background-attachment: fixed;
 }
@@ -35,7 +35,7 @@ body.page-barcelona {
       rgba(0, 0, 0, 0.42) 50%,
       rgba(0, 0, 0, 0.8) 100%
     ),
-    url("16034074144863-4055930563.jpg");
+    url("bg-barcelona.jpg");
   background-position: center top;
   background-attachment: fixed;
 }
@@ -48,7 +48,7 @@ body.page-books {
       rgba(12, 8, 4, 0.48) 48%,
       rgba(12, 8, 4, 0.82) 100%
     ),
-    url("61tOBwV99TL._AC_UF894,1000_QL80_.jpg");
+    url("bg-books.jpg");
   background-position: center top;
   background-attachment: fixed;
 }
@@ -311,3 +311,4 @@ body.page-books {
     height: 60px;
   }
 }
+
