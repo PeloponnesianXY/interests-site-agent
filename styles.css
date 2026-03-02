@@ -120,6 +120,12 @@ body.page-books {
   opacity: 1;
 }
 
+.style-tile.is-open .style-embed {
+  max-height: 520px;
+  overflow-y: auto;
+  opacity: 1;
+}
+
 .spotify {
   display: block;
   width: 100%;
