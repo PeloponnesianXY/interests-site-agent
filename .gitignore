@@ -4,3 +4,4 @@ __pycache__/
 .venv/
 API keys.txt
 Maffekhot/
+.langgraph_api/
