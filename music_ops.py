@@ -101,15 +101,9 @@ def render_music_block(store: dict[str, Any]) -> str:
         for song in section.get("songs", []):
             title = html.escape(str(song.get("title", "Spotify Embed")))
             url = html.escape(str(song.get("url", "")))
-            lines.append('      <iframe class="spotify lazy-spotify"')
-            lines.append(f'        title="{title}"')
-            lines.append('        src="about:blank"')
-            lines.append(f'        data-src="{url}"')
-            lines.append('        width="100%" height="152" frameborder="0"')
             lines.append(
-                '        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"'
+                f'      <div class="spotify-shell" data-src="{url}" data-title="{title}" aria-label="{title}"></div>'
             )
-            lines.append('        loading="lazy" scrolling="no"></iframe>')
             lines.append("")
 
         lines.append("    </div>")
