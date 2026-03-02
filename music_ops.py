@@ -48,7 +48,7 @@ def default_title(kind: str, item_id: str) -> str:
 def fetch_spotify_title(kind: str, item_id: str) -> str | None:
     share_url = f"https://open.spotify.com/{kind}/{item_id}"
     endpoint = "https://open.spotify.com/oembed?url=" + urllib.parse.quote(share_url, safe="")
-    req = urllib.request.Request(endpoint, headers={"User-Agent": "music-site-agent/1.0"})
+    req = urllib.request.Request(endpoint, headers={"User-Agent": "interests-site-agent/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=6) as resp:
             data = json.loads(resp.read().decode("utf-8"))

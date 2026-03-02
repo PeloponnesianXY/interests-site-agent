@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": ["."],
   "graphs": {
-    "music-agent": "./agent_music_langgraph.py:graph"
+    "interests-agent": "./agent_music_langgraph.py:graph"
   }
 }

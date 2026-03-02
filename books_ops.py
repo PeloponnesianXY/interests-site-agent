@@ -264,7 +264,7 @@ def fetch_book_title(url: str) -> str | None:
 
 
 def fetch_book_metadata(url: str) -> dict[str, str]:
-    req = urllib.request.Request(url, headers={"User-Agent": "music-site-agent/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "interests-site-agent/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=8) as resp:
             final_url = resp.geturl()
