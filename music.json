@@ -44,7 +44,12 @@
     },
     {
       "name": "90s Rock",
-      "songs": []
+      "songs": [
+        {
+          "title": "Come As You Are",
+          "url": "https://open.spotify.com/embed/track/4P5KoWXOxwuobLmHXLMobV?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "Blues",
