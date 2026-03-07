@@ -3,8 +3,6 @@ from __future__ import annotations
 import asyncio
 import os
 import threading
-from pathlib import Path
-from typing import Any
 
 import chainlit as cl
 
@@ -13,24 +11,6 @@ from agent_music_langgraph import AgentState, build_graph
 
 APP = build_graph()
 INGESTION_LOCK = threading.Lock()
-TEXT_MIME_PREFIXES = ("text/",)
-TEXT_MIME_TYPES = {
-    "application/json",
-    "application/xml",
-}
-TEXT_EXTENSIONS = {
-    ".csv",
-    ".json",
-    ".log",
-    ".md",
-    ".rst",
-    ".text",
-    ".toml",
-    ".txt",
-    ".xml",
-    ".yaml",
-    ".yml",
-}
 
 
 def _default_model_name() -> str:
@@ -52,51 +32,13 @@ def _initial_state(request_text: str) -> AgentState:
     }
 
 
-def _is_text_element(element: Any) -> bool:
-    mime = str(getattr(element, "mime", "") or "").casefold()
-    if any(mime.startswith(prefix) for prefix in TEXT_MIME_PREFIXES):
-        return True
-    if mime in TEXT_MIME_TYPES:
-        return True
-    suffix = Path(str(getattr(element, "name", "") or "")).suffix.casefold()
-    return suffix in TEXT_EXTENSIONS
-
-
-def _read_text_element(element: Any) -> str:
-    path = getattr(element, "path", None)
-    if not path:
-        return ""
-    return Path(path).read_text(encoding="utf-8")
-
-
-def _build_request_text(message: cl.Message) -> tuple[str, list[str]]:
-    chunks: list[str] = []
-    unsupported_files: list[str] = []
-
-    content = (message.content or "").strip()
-    if content:
-        chunks.append(content)
-
-    for element in message.elements or []:
-        if not _is_text_element(element):
-            unsupported_files.append(str(getattr(element, "name", "unnamed-file")))
-            continue
-        text = _read_text_element(element).strip()
-        if not text:
-            continue
-        label = str(getattr(element, "name", "attachment.txt"))
-        chunks.append(f"Attachment: {label}\n{text}")
-
-    return "\n\n".join(chunks).strip(), unsupported_files
-
-
 def _run_agent(request_text: str) -> AgentState:
     initial_state = _initial_state(request_text)
     with INGESTION_LOCK:
         return APP.invoke(initial_state)
 
 
-def _format_result(state: AgentState, unsupported_files: list[str]) -> str:
+def _format_result(state: AgentState) -> str:
     lines: list[str] = []
 
     added = [result for result in state.get("results", []) if result.get("status") == "added"]
@@ -145,12 +87,6 @@ def _format_result(state: AgentState, unsupported_files: list[str]) -> str:
             else:
                 lines.append(f"- {reason}")
 
-    if unsupported_files:
-        lines.append("")
-        lines.append("Ignored non-text attachments:")
-        for name in unsupported_files:
-            lines.append(f"- {name}")
-
     if render_result:
         lines.append("")
         lines.append(
@@ -175,19 +111,20 @@ def _format_result(state: AgentState, unsupported_files: list[str]) -> str:
 async def on_chat_start() -> None:
     await cl.Message(
         content=(
-            "Send or drop Spotify/Amazon links here.\n"
-            "You can paste one link, multiple links, or attach text files with links.\n"
-            "Amazon links go to books, Spotify links go to music, and the site files are updated automatically."
+            "Drop or paste URLs directly into the chat.\n"
+            "You can send 1 or several mixed Amazon and Spotify links in one message.\n"
+            "For Spotify links, include the genre or section you want, for example: "
+            "'Add these to Modern Indie: <spotify links>'. Amazon links go to books automatically."
         )
     ).send()
 
 
 @cl.on_message
 async def on_message(message: cl.Message) -> None:
-    request_text, unsupported_files = _build_request_text(message)
+    request_text = (message.content or "").strip()
     if not request_text:
         await cl.Message(
-            content="No text or readable text attachment was provided. Paste links directly or attach a text file."
+            content="No URL text was provided. Paste or drop the URLs directly into the chat message."
         ).send()
         return
 
@@ -205,7 +142,7 @@ async def on_message(message: cl.Message) -> None:
         await progress.update()
         return
 
-    progress.content = _format_result(state, unsupported_files)
+    progress.content = _format_result(state)
     progress.elements = [
         cl.File(name="music.json", path="music.json", display="inline"),
         cl.File(name="books.json", path="books.json", display="inline"),

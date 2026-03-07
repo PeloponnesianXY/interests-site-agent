@@ -137,7 +137,12 @@
     },
     {
       "name": "Rap",
-      "songs": []
+      "songs": [
+        {
+          "title": "California Love - Original Version",
+          "url": "https://open.spotify.com/embed/track/3ia3dJETSOllPsv3LJkE35?utm_source=generator"
+        }
+      ]
     },
     {
       "name": "Unsorted",
