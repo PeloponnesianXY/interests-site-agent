@@ -123,6 +123,7 @@ def render_music_block(store: dict[str, Any]) -> str:
     lines.append('      <div class="music-kicker">Now Playing</div>')
     lines.append(f'      <h3 class="music-player-section" id="music-player-section">{default_section}</h3>')
     lines.append(f'      <div class="music-player-title" id="music-player-title">{default_title}</div>')
+    lines.append('      <div class="music-player-caption">Pick any track from the library to swap the player instantly.</div>')
     lines.append(
         '      <a class="music-player-link inline-link" id="music-player-link" '
         f'href="{default_share_url}" target="_blank" rel="noopener noreferrer">Open in Spotify</a>'
@@ -147,7 +148,10 @@ def render_music_block(store: dict[str, Any]) -> str:
         songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
         lines.append("")
         lines.append('    <div class="style-tile music-section-tile">')
-        lines.append(f"    <h3>{section_name}</h3>")
+        lines.append('      <div class="music-section-head">')
+        lines.append(f"        <h3>{section_name}</h3>")
+        lines.append(f'        <div class="music-section-count">{len(songs)} track{"s" if len(songs) != 1 else ""}</div>')
+        lines.append("      </div>")
         lines.append("")
         lines.append('      <div class="music-song-list">')
 
