@@ -92,6 +92,10 @@ def _is_placeholder_title(value: str) -> bool:
         return True
     if re.fullmatch(r"amazon\.(com|co\.uk|ca|de|fr|it|es|com\.au)", text):
         return True
+    if re.fullmatch(r"amazon(\.com)?\s*[:\-|]?\s*books?", text):
+        return True
+    if text.startswith("visit amazon") or text.startswith("shop books"):
+        return True
     return False
 
 
@@ -291,9 +295,25 @@ def default_title(url: str) -> str:
     return "Untitled Amazon Book"
 
 
+def resolve_book_title(input_title: str, url: str, metadata: dict[str, str] | None = None) -> str:
+    canonical_url = str(url or "").strip()
+    metadata = metadata or fetch_book_metadata(canonical_url)
+    metadata_author = str(metadata.get("author", "")).strip()
+    metadata_title = str(metadata.get("title", "")).strip()
+    cleaned_input_title, metadata_author = _cleanup_title_and_author(input_title, metadata_author)
+    cleaned_metadata_title, _ = _cleanup_title_and_author(metadata_title, metadata_author)
+
+    if cleaned_metadata_title and not _is_placeholder_title(cleaned_metadata_title):
+        return cleaned_metadata_title
+    if cleaned_input_title and not _is_placeholder_title(cleaned_input_title):
+        return cleaned_input_title
+    return default_title(canonical_url)
+
+
 def fetch_book_title(url: str) -> str | None:
     metadata = fetch_book_metadata(url)
-    return metadata.get("title") or None
+    title = resolve_book_title("", url, metadata)
+    return None if _is_placeholder_title(title) or normalize(title).startswith("amazon book ") else title
 
 
 def fetch_book_metadata(url: str) -> dict[str, str]:
@@ -436,19 +456,9 @@ def upsert_book(section: str, title: str, url: str, dry_run: bool = False) -> di
 
     try:
         metadata = fetch_book_metadata(raw_url or canonical_url)
-        metadata_title = str(metadata.get("title", "")).strip()
         metadata_cover_url = str(metadata.get("cover_url", "")).strip()
         metadata_author = str(metadata.get("author", "")).strip()
-        cleaned_input_title, metadata_author = _cleanup_title_and_author(book_title, metadata_author)
-        cleaned_metadata_title, _ = _cleanup_title_and_author(metadata_title, metadata_author)
-        if cleaned_metadata_title and not _is_placeholder_title(cleaned_metadata_title) and (
-            not cleaned_input_title or _is_placeholder_title(cleaned_input_title)
-        ):
-            book_title = cleaned_metadata_title
-        elif cleaned_input_title and not _is_placeholder_title(cleaned_input_title):
-            book_title = cleaned_input_title
-        else:
-            book_title = default_title(canonical_url)
+        book_title = resolve_book_title(book_title, canonical_url, metadata)
 
         inferred_section = infer_section_from_taxonomy(str(metadata.get("taxonomy", "")))
         if str(metadata.get("taxonomy", "")).strip():

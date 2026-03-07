@@ -7,3 +7,5 @@ Maffekhot/
 .langgraph_api/
 desktop.ini
 mlflow-example/
+.chainlit/translations/
+*.code-workspace

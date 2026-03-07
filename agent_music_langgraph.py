@@ -242,7 +242,7 @@ def validate_items(state: AgentState) -> AgentState:
 
         try:
             canonical_url = AMAZON_URL_NORMALIZER_TOOL.normalize(url)
-            final_title = title or books_ops.fetch_book_title(canonical_url) or books_ops.default_title(canonical_url)
+            final_title = books_ops.resolve_book_title(title, canonical_url)
             valid_items.append({"item_type": "book", "section": section, "title": final_title, "url": canonical_url})
         except ValueError as exc:
             invalid_items.append(
