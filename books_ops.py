@@ -27,6 +27,18 @@ def _clean_whitespace(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def _html_to_text(fragment: str) -> str:
+    text = fragment
+    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"</p\s*>", "\n\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = html.unescape(text)
+    text = re.sub(r"\r", "", text)
+    text = re.sub(r"[ \t]+\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 def _name_tokens(text: str) -> set[str]:
     tokens = re.findall(r"[A-Za-z]+", text.casefold())
     return {t for t in tokens if len(t) > 1}
@@ -279,6 +291,12 @@ def fetch_book_metadata(url: str) -> dict[str, str]:
             return m.group(1).strip()
         return ""
 
+    def _extract_text(pattern: str) -> str:
+        match = re.search(pattern, raw_html, flags=re.IGNORECASE | re.DOTALL)
+        if not match:
+            return ""
+        return _html_to_text(match.group(1))
+
     title = _extract_meta("property", "og:title") or _extract_meta("name", "twitter:title")
     if not title:
         match = re.search(r"<title[^>]*>(.*?)</title>", raw_html, flags=re.IGNORECASE | re.DOTALL)
@@ -287,12 +305,38 @@ def fetch_book_metadata(url: str) -> dict[str, str]:
 
     cover_url = _extract_meta("property", "og:image") or _extract_meta("name", "twitter:image")
     author = _extract_meta("name", "author")
+    subtitle_text = _extract_text(r'<span[^>]*id=["\']productSubtitle["\'][^>]*>(.*?)</span>')
+    description = ""
+    rating = ""
+    rating_count = ""
+    publication_date = ""
     if not author:
         byline_match = re.search(
             r'id=["\']bylineInfo["\'][^>]*>(.*?)</(?:a|span)>', raw_html, flags=re.IGNORECASE | re.DOTALL
         )
         if byline_match:
             author = _strip_tags(byline_match.group(1))
+
+    acr_match = re.search(r'id=["\']acrPopover["\'][^>]*title=["\']([^"\']+)["\']', raw_html, flags=re.IGNORECASE)
+    if acr_match:
+        rating = _clean_whitespace(html.unescape(acr_match.group(1)))
+    rating_count_match = re.search(
+        r'id=["\']acrCustomerReviewText["\'][^>]*>\s*([^<]+?)\s*</', raw_html, flags=re.IGNORECASE | re.DOTALL
+    )
+    if rating_count_match:
+        rating_count = _clean_whitespace(html.unescape(rating_count_match.group(1)))
+
+    if subtitle_text:
+        date_match = re.search(
+            r"(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}",
+            subtitle_text,
+        )
+        if date_match:
+            publication_date = _clean_whitespace(date_match.group(0))
+    if not publication_date:
+        pub_match = re.search(r'Publisher[^<]{0,120}\(([^()]*\d{4}[^()]*)\)', raw_html, flags=re.IGNORECASE | re.DOTALL)
+        if pub_match:
+            publication_date = _clean_whitespace(html.unescape(pub_match.group(1)))
 
     taxonomy = ""
     crumb_block = re.search(
@@ -308,6 +352,17 @@ def fetch_book_metadata(url: str) -> dict[str, str]:
         fallback = re.search(r"Books(?:\s*(?:>|&rsaquo;|&#8250;)\s*[^<\"\n]+){1,8}", raw_html, flags=re.IGNORECASE)
         if fallback:
             taxonomy = html.unescape(fallback.group(0))
+
+    description = _extract_text(r'id=["\']bookDescription_feature_div["\'][^>]*>.*?<noscript>\s*(.*?)\s*</noscript>')
+    if not description:
+        description = _extract_text(
+            r'id=["\']bookDescription_feature_div["\'][^>]*>.*?<div[^>]*a-expander-content[^>]*>(.*?)</div>'
+        )
+    if not description:
+        description = _extract_text(r'id=["\']editorialReviews_feature_div["\'][^>]*>(.*?)</(?:div|section)>')
+    if not description:
+        description = _extract_meta("property", "og:description") or _extract_meta("name", "description")
+    description = _clean_whitespace(description)
 
     title, author = _cleanup_title_and_author(title, author)
     if _is_placeholder_title(title):
@@ -334,6 +389,10 @@ def fetch_book_metadata(url: str) -> dict[str, str]:
         "cover_url": cover_url,
         "author": author,
         "taxonomy": taxonomy,
+        "description": description,
+        "publication_date": publication_date,
+        "rating": rating,
+        "rating_count": rating_count,
     }
 
 
@@ -454,6 +513,7 @@ def render_books_block(store: dict[str, Any]) -> str:
     first_section_name = html.escape(str(sections[0].get("name", "Books"))) if sections else "Books"
     first_section_id = normalize(str(sections[0].get("name", ""))).replace(" ", "-") if sections else "books"
     first_count = len([book for book in sections[0].get("books", []) if isinstance(book, dict)]) if sections else 0
+    first_book_payload: dict[str, str] | None = None
 
     lines: list[str] = ['<div class="books-hub">']
     metadata_cache: dict[str, dict[str, str]] = {}
@@ -523,11 +583,35 @@ def render_books_block(store: dict[str, Any]) -> str:
             author_raw = str(book.get("author", "")).strip() or str(metadata.get("author", "")).strip()
             title_raw, author_raw = _cleanup_title_and_author(title_raw, author_raw)
             cover_url_raw = str(book.get("cover_url", "")).strip() or str(metadata.get("cover_url", "")).strip()
+            description_raw = _clean_whitespace(str(metadata.get("description", "")).strip())
+            publication_date_raw = _clean_whitespace(str(metadata.get("publication_date", "")).strip())
+            rating_raw = _clean_whitespace(str(metadata.get("rating", "")).strip())
+            rating_count_raw = _clean_whitespace(str(metadata.get("rating_count", "")).strip())
 
             title = html.escape(title_raw)
             url = html.escape(url_raw)
             author = html.escape(author_raw)
-            lines.append(f'          <a class="book-card" href="{url}" target="_blank" rel="noopener noreferrer">')
+            if first_book_payload is None:
+                first_book_payload = {
+                    "title": title_raw,
+                    "author": author_raw,
+                    "url": url_raw,
+                    "description": description_raw,
+                    "publication_date": publication_date_raw,
+                    "rating": rating_raw,
+                    "rating_count": rating_count_raw,
+                    "section_name": section_name_raw,
+                }
+            lines.append(
+                '          <button class="book-card'
+                f'{" is-active" if first_book_payload and first_book_payload["url"] == url_raw else ""}"'
+                f' type="button" data-title="{title}" data-author="{author}" data-url="{url}"'
+                f' data-description="{html.escape(description_raw)}"'
+                f' data-publication-date="{html.escape(publication_date_raw)}"'
+                f' data-rating="{html.escape(rating_raw)}"'
+                f' data-rating-count="{html.escape(rating_count_raw)}"'
+                f' data-section="{section_name}" aria-label="Show summary for {title}">'
+            )
             lines.append('            <div class="book-card-media">')
             if cover_url_raw:
                 lines.append(
@@ -540,9 +624,9 @@ def render_books_block(store: dict[str, Any]) -> str:
             lines.append(f'              <div class="book-card-title">{title}</div>')
             if author_raw:
                 lines.append(f'              <div class="book-author">{author}</div>')
-            lines.append(f'              <div class="book-card-link">Open on Amazon</div>')
+            lines.append('              <div class="book-card-link">Show summary</div>')
             lines.append("            </div>")
-            lines.append("          </a>")
+            lines.append("          </button>")
 
         if not books:
             lines.append('          <div class="book-empty">No books yet.</div>')
@@ -553,6 +637,43 @@ def render_books_block(store: dict[str, Any]) -> str:
     lines.append("")
     lines.append("    </div>")
     lines.append("  </section>")
+    lines.append("")
+    lines.append('  <aside class="books-summary-panel">')
+    lines.append('    <div class="books-summary-copy">')
+    lines.append('      <div class="music-kicker">Book Summary</div>')
+    if first_book_payload:
+        default_title = html.escape(first_book_payload["title"] or "Selected book")
+        default_author = html.escape(first_book_payload["author"])
+        default_url = html.escape(first_book_payload["url"])
+        default_description = html.escape(first_book_payload["description"])
+        default_pub = html.escape(first_book_payload["publication_date"])
+        default_rating = html.escape(first_book_payload["rating"])
+        default_rating_count = html.escape(first_book_payload["rating_count"])
+        default_section = html.escape(first_book_payload["section_name"])
+    else:
+        default_title = "No book selected"
+        default_author = ""
+        default_url = "#"
+        default_description = "Pick a book from the shelf to load its Amazon summary here."
+        default_pub = ""
+        default_rating = ""
+        default_rating_count = ""
+        default_section = "Books"
+    lines.append(f'      <h3 class="books-summary-section" id="books-summary-section">{default_section}</h3>')
+    lines.append(f'      <div class="books-summary-title" id="books-summary-title">{default_title}</div>')
+    lines.append(f'      <div class="books-summary-author" id="books-summary-author">{default_author}</div>')
+    lines.append('      <div class="books-summary-meta">')
+    lines.append(f'        <div class="books-summary-pill" id="books-summary-date">{default_pub}</div>')
+    lines.append(f'        <div class="books-summary-pill" id="books-summary-rating">{default_rating}</div>')
+    lines.append(f'        <div class="books-summary-pill" id="books-summary-rating-count">{default_rating_count}</div>')
+    lines.append("      </div>")
+    lines.append(
+        '      <a class="books-summary-link inline-link" id="books-summary-link" '
+        f'href="{default_url}" target="_blank" rel="noopener noreferrer">Open on Amazon</a>'
+    )
+    lines.append("    </div>")
+    lines.append(f'    <div class="books-summary-body" id="books-summary-body">{default_description}</div>')
+    lines.append("  </aside>")
     lines.append("</div>")
     return "\n".join(lines)
 
