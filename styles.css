@@ -49,7 +49,7 @@ body.page-books {
       rgba(12, 8, 4, 0.48) 48%,
       rgba(12, 8, 4, 0.82) 100%
     ),
-    url("bg-books.jpg");
+    url("bg-books.png");
   background-position: center top;
   background-attachment: fixed;
 }
