@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, TypedDict
@@ -76,12 +77,42 @@ def _make_extraction_messages(
     return [("system", system_prompt), ("user", user_prompt)]
 
 
+def _safe_extract_json_dict(text: str) -> dict[str, Any]:
+    text = (text or "").strip()
+    if not text:
+        raise ValueError("Model returned empty content.")
+    try:
+        parsed = json.loads(text)
+        if isinstance(parsed, dict):
+            return parsed
+    except json.JSONDecodeError:
+        pass
+
+    match = re.search(r"\{[\s\S]*\}", text)
+    if not match:
+        raise ValueError("No JSON object found in model output.")
+    parsed = json.loads(match.group(0))
+    if not isinstance(parsed, dict):
+        raise ValueError("Parsed JSON is not an object.")
+    return parsed
+
+
 def extract_items(state: AgentState) -> AgentState:
-    llm = ChatOpenAI(
-        model=state["model_name"],
-        api_key=os.getenv("OPENAI_API_KEY"),
-        temperature=0,
-    )
+    openai_base_url = os.getenv("OPENAI_BASE_URL", "").strip()
+    openai_api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    llm_kwargs: dict[str, Any] = {
+        "model": state["model_name"],
+        "temperature": 0,
+    }
+    if openai_base_url:
+        llm_kwargs["base_url"] = openai_base_url
+    if openai_api_key:
+        llm_kwargs["api_key"] = openai_api_key
+    elif openai_base_url:
+        # Local OpenAI-compatible endpoints (e.g., Ollama) usually accept any non-empty key.
+        llm_kwargs["api_key"] = "ollama"
+
+    llm = ChatOpenAI(**llm_kwargs)
 
     music_sections = SECTION_CATALOG_TOOL.list_sections()
     book_sections = BOOK_SECTION_CATALOG_TOOL.list_sections()
@@ -127,10 +158,51 @@ def extract_items(state: AgentState) -> AgentState:
 
         next_state["extracted_items"] = items
         return next_state
-    except Exception as exc:
-        next_state["extracted_items"] = []
-        next_state["extract_error"] = f"Extraction failed: {exc}"
-        return next_state
+    except Exception as structured_exc:
+        # Some local models do not support strict JSON schema. Fall back to plain invoke + JSON parse.
+        try:
+            raw_response = llm.invoke(messages)
+            usage = {}
+            if hasattr(raw_response, "usage_metadata") and raw_response.usage_metadata:
+                usage = {
+                    "input_tokens": int(raw_response.usage_metadata.get("input_tokens", 0)),
+                    "output_tokens": int(raw_response.usage_metadata.get("output_tokens", 0)),
+                    "total_tokens": int(raw_response.usage_metadata.get("total_tokens", 0)),
+                }
+            elif hasattr(raw_response, "response_metadata"):
+                token_usage = (raw_response.response_metadata or {}).get("token_usage", {})
+                usage = {
+                    "input_tokens": int(token_usage.get("prompt_tokens", 0)),
+                    "output_tokens": int(token_usage.get("completion_tokens", 0)),
+                    "total_tokens": int(token_usage.get("total_tokens", 0)),
+                }
+            next_state["token_usage"] = usage
+
+            content = raw_response.content if hasattr(raw_response, "content") else ""
+            if isinstance(content, list):
+                content = "".join(
+                    str(chunk.get("text", "")) if isinstance(chunk, dict) else str(chunk) for chunk in content
+                )
+            parsed_payload = _safe_extract_json_dict(str(content))
+            payload = ExtractionPayload.model_validate(parsed_payload)
+
+            items: list[dict[str, str]] = []
+            for item in payload.items if payload else []:
+                items.append(
+                    {
+                        "section": str(item.section),
+                        "title": str(item.title),
+                        "url": str(item.url),
+                    }
+                )
+            next_state["extracted_items"] = items
+            return next_state
+        except Exception as fallback_exc:
+            next_state["extracted_items"] = []
+            next_state["extract_error"] = (
+                f"Extraction failed: structured={structured_exc}; fallback={fallback_exc}"
+            )
+            return next_state
 
 
 def validate_items(state: AgentState) -> AgentState:
@@ -309,7 +381,11 @@ def main() -> None:
     group.add_argument("--text", help="Natural language request text")
     group.add_argument("--file", help="Path to file containing request text")
     parser.add_argument("--dry-run", action="store_true", help="Validate and simulate without writing files")
-    parser.add_argument("--model", default=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"), help="Model name")
+    parser.add_argument(
+        "--model",
+        default=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
+        help="Model name (OpenAI model or local OpenAI-compatible model ID)",
+    )
     args = parser.parse_args()
 
     request_text = _read_request_text(args)
