@@ -14,6 +14,18 @@ BOOKS_END = "<!-- BOOKS:END -->"
 STORE_PATH = Path("books.json")
 PAGE_PATH = Path("books.html")
 
+SECTION_ORDER = {
+    "non-fiction": 0,
+    "nonfiction": 0,
+    "fiction": 1,
+}
+
+SUBSECTION_ORDER = {
+    "non-fiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetic", "Microbiology"],
+    "nonfiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetic", "Microbiology"],
+    "fiction": ["Sci-Fi", "Murder Mystery", "Historical Satire"],
+}
+
 
 def normalize(text: str) -> str:
     return " ".join(text.strip().split()).casefold()
@@ -223,6 +235,15 @@ def ensure_section(store: dict[str, Any], name: str) -> dict[str, Any]:
     section = {"name": name, "books": []}
     store["sections"].append(section)
     return section
+
+
+def _subsection_for_section(section_name: str, subsection_name: str) -> str:
+    cleaned = str(subsection_name or "").strip()
+    if cleaned:
+        return cleaned
+
+    known = SUBSECTION_ORDER.get(normalize(section_name), [])
+    return known[0] if known else "General"
 
 
 def get_section_names() -> list[str]:
@@ -505,10 +526,13 @@ def render_books_block(store: dict[str, Any]) -> str:
         for section in store.get("sections", [])
         if isinstance(section, dict)
     ]
-    sections = sorted(sections, key=lambda section: str(section.get("name", "")).casefold())
-
-    preferred_order = {"fiction": 0, "non-fiction": 1, "nonfiction": 1}
-    sections.sort(key=lambda section: (preferred_order.get(normalize(str(section.get("name", ""))), 99), str(section.get("name", "")).casefold()))
+    sections = sorted(
+        sections,
+        key=lambda section: (
+            SECTION_ORDER.get(normalize(str(section.get("name", ""))), 99),
+            str(section.get("name", "")).casefold(),
+        ),
+    )
 
     first_section_name = html.escape(str(sections[0].get("name", "Books"))) if sections else "Books"
     first_section_id = normalize(str(sections[0].get("name", ""))).replace(" ", "-") if sections else "books"
@@ -564,74 +588,99 @@ def render_books_block(store: dict[str, Any]) -> str:
             f'      <section class="books-category-panel" id="books-panel-{section_id}" data-panel="{section_id}"'
             f' data-section-name="{section_name}" data-book-count="{len([book for book in section.get("books", []) if isinstance(book, dict)])}"{hidden_attr}>'
         )
-        lines.append('        <div class="books-card-grid">')
-
         books = [book for book in section.get("books", []) if isinstance(book, dict)]
+        grouped_books: dict[str, list[dict[str, Any]]] = {}
+        subsection_order = SUBSECTION_ORDER.get(normalize(section_name_raw), [])
+
         for book in books:
-            title_raw = str(book.get("title", "Book")).strip()
-            url_raw = str(book.get("url", "")).strip()
+            subsection_name = _subsection_for_section(section_name_raw, str(book.get("subsection", "")))
+            grouped_books.setdefault(subsection_name, []).append(book)
 
-            metadata = metadata_cache.get(url_raw)
-            if metadata is None:
-                metadata = fetch_book_metadata(url_raw) if url_raw else {}
-                metadata_cache[url_raw] = metadata
+        ordered_subsections = list(subsection_order)
+        ordered_subsections.extend(
+            sorted(name for name in grouped_books if name not in subsection_order)
+        )
 
-            metadata_title = str(metadata.get("title", "")).strip()
-            if metadata_title and (normalize(title_raw).startswith("amazon book ") or normalize(title_raw) == normalize(url_raw.split("/")[-1])):
-                title_raw = metadata_title
+        for subsection_name in ordered_subsections:
+            lines.append('        <div class="books-subsection-block">')
+            lines.append('          <div class="books-subsection-head">')
+            lines.append(f'            <h4>{html.escape(subsection_name)}</h4>')
+            lines.append(f'            <div class="books-subsection-count">{len(grouped_books.get(subsection_name, []))}</div>')
+            lines.append("          </div>")
+            lines.append('          <div class="books-card-grid">')
 
-            author_raw = str(book.get("author", "")).strip() or str(metadata.get("author", "")).strip()
-            title_raw, author_raw = _cleanup_title_and_author(title_raw, author_raw)
-            cover_url_raw = str(book.get("cover_url", "")).strip() or str(metadata.get("cover_url", "")).strip()
-            description_raw = _clean_whitespace(str(metadata.get("description", "")).strip())
-            publication_date_raw = _clean_whitespace(str(metadata.get("publication_date", "")).strip())
-            rating_raw = _clean_whitespace(str(metadata.get("rating", "")).strip())
-            rating_count_raw = _clean_whitespace(str(metadata.get("rating_count", "")).strip())
+            for book in grouped_books.get(subsection_name, []):
+                title_raw = str(book.get("title", "Book")).strip()
+                url_raw = str(book.get("url", "")).strip()
 
-            title = html.escape(title_raw)
-            url = html.escape(url_raw)
-            author = html.escape(author_raw)
-            if first_book_payload is None:
-                first_book_payload = {
-                    "title": title_raw,
-                    "author": author_raw,
-                    "url": url_raw,
-                    "description": description_raw,
-                    "publication_date": publication_date_raw,
-                    "rating": rating_raw,
-                    "rating_count": rating_count_raw,
-                    "section_name": section_name_raw,
-                }
-            lines.append(
-                '          <button class="book-card'
-                f'{" is-active" if first_book_payload and first_book_payload["url"] == url_raw else ""}"'
-                f' type="button" data-title="{title}" data-author="{author}" data-url="{url}"'
-                f' data-description="{html.escape(description_raw)}"'
-                f' data-publication-date="{html.escape(publication_date_raw)}"'
-                f' data-rating="{html.escape(rating_raw)}"'
-                f' data-rating-count="{html.escape(rating_count_raw)}"'
-                f' data-section="{section_name}" aria-label="Show summary for {title}">'
-            )
-            lines.append('            <div class="book-card-media">')
-            if cover_url_raw:
+                metadata = metadata_cache.get(url_raw)
+                if metadata is None:
+                    metadata = fetch_book_metadata(url_raw) if url_raw else {}
+                    metadata_cache[url_raw] = metadata
+
+                metadata_title = str(metadata.get("title", "")).strip()
+                if metadata_title and (
+                    normalize(title_raw).startswith("amazon book ")
+                    or normalize(title_raw) == normalize(url_raw.split("/")[-1])
+                ):
+                    title_raw = metadata_title
+
+                author_raw = str(book.get("author", "")).strip() or str(metadata.get("author", "")).strip()
+                title_raw, author_raw = _cleanup_title_and_author(title_raw, author_raw)
+                cover_url_raw = str(book.get("cover_url", "")).strip() or str(metadata.get("cover_url", "")).strip()
+                description_raw = _clean_whitespace(str(metadata.get("description", "")).strip())
+                publication_date_raw = _clean_whitespace(str(metadata.get("publication_date", "")).strip())
+                rating_raw = _clean_whitespace(str(metadata.get("rating", "")).strip())
+                rating_count_raw = _clean_whitespace(str(metadata.get("rating_count", "")).strip())
+
+                title = html.escape(title_raw)
+                url = html.escape(url_raw)
+                author = html.escape(author_raw)
+                if first_book_payload is None:
+                    first_book_payload = {
+                        "title": title_raw,
+                        "author": author_raw,
+                        "url": url_raw,
+                        "description": description_raw,
+                        "publication_date": publication_date_raw,
+                        "rating": rating_raw,
+                        "rating_count": rating_count_raw,
+                        "section_name": section_name_raw,
+                        "subsection_name": subsection_name,
+                    }
                 lines.append(
-                    f'              <img class="book-cover" src="{html.escape(cover_url_raw)}" alt="Cover for {title}" loading="lazy">'
+                    '            <button class="book-card'
+                    f'{" is-active" if first_book_payload and first_book_payload["url"] == url_raw else ""}"'
+                    f' type="button" data-title="{title}" data-author="{author}" data-url="{url}"'
+                    f' data-description="{html.escape(description_raw)}"'
+                    f' data-publication-date="{html.escape(publication_date_raw)}"'
+                    f' data-rating="{html.escape(rating_raw)}"'
+                    f' data-rating-count="{html.escape(rating_count_raw)}"'
+                    f' data-section="{section_name}" data-subsection="{html.escape(subsection_name)}"'
+                    f' aria-label="Show summary for {title}">'
                 )
-            else:
-                lines.append('              <div class="book-cover book-cover-placeholder">Book</div>')
-            lines.append("            </div>")
-            lines.append('            <div class="book-card-body">')
-            lines.append(f'              <div class="book-card-title">{title}</div>')
-            if author_raw:
-                lines.append(f'              <div class="book-author">{author}</div>')
-            lines.append('              <div class="book-card-link">Show summary</div>')
-            lines.append("            </div>")
-            lines.append("          </button>")
+                lines.append('              <div class="book-card-media">')
+                if cover_url_raw:
+                    lines.append(
+                        f'                <img class="book-cover" src="{html.escape(cover_url_raw)}" alt="Cover for {title}" loading="lazy">'
+                    )
+                else:
+                    lines.append('                <div class="book-cover book-cover-placeholder">Book</div>')
+                lines.append("              </div>")
+                lines.append('              <div class="book-card-body">')
+                lines.append(f'                <div class="book-card-title">{title}</div>')
+                if author_raw:
+                    lines.append(f'                <div class="book-author">{author}</div>')
+                lines.append('                <div class="book-card-link">Show summary</div>')
+                lines.append("              </div>")
+                lines.append("            </button>")
 
-        if not books:
-            lines.append('          <div class="book-empty">No books yet.</div>')
+            if not grouped_books.get(subsection_name):
+                lines.append('            <div class="book-empty">No books yet.</div>')
 
-        lines.append("        </div>")
+            lines.append("          </div>")
+            lines.append("        </div>")
+
         lines.append("      </section>")
 
     lines.append("")
@@ -649,7 +698,9 @@ def render_books_block(store: dict[str, Any]) -> str:
         default_pub = html.escape(first_book_payload["publication_date"])
         default_rating = html.escape(first_book_payload["rating"])
         default_rating_count = html.escape(first_book_payload["rating_count"])
-        default_section = html.escape(first_book_payload["section_name"])
+        default_section = html.escape(
+            f'{first_book_payload["section_name"]} / {first_book_payload.get("subsection_name", "")}'.rstrip(" /")
+        )
     else:
         default_title = "No book selected"
         default_author = ""

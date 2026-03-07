@@ -1,70 +1,80 @@
 {
   "sections": [
     {
-      "name": "Fiction",
-      "books": [
-        {
-          "title": "Three Men in a Boat (To Say Nothing of the Dog)",
-          "url": "https://a.co/d/0c2mGarn",
-          "cover_url": "https://m.media-amazon.com/images/I/61yz7dgodQL._SL1360_.jpg",
-          "author": "Jerome K. Jerome"
-        },
-        {
-          "title": "Roadside Picnic",
-          "url": "https://a.co/d/0ciPKO1L",
-          "cover_url": "https://m.media-amazon.com/images/I/61LTNLuJuiL._SL1000_.jpg",
-          "author": "Arkady Strugatsky"
-        },
-        {
-          "title": "The Good Soldier Svejk and His Fortunes in the World War",
-          "url": "https://a.co/d/09UI7xUn",
-          "cover_url": "https://m.media-amazon.com/images/I/81HQ9iYNM8L._SL1500_.jpg",
-          "author": "Jaroslav Hasek"
-        },
-        {
-          "title": "Amazon Book 0jeGhPQN",
-          "url": "https://a.co/d/0jeGhPQN"
-        }
-      ]
-    },
-    {
       "name": "Non-fiction",
       "books": [
         {
           "title": "Reasons and Persons",
           "url": "https://a.co/d/07pzkLHQ",
           "cover_url": "https://m.media-amazon.com/images/I/91P1jZV4HBL._SL1500_.jpg",
-          "author": "Derek Parfit"
+          "author": "Derek Parfit",
+          "subsection": "Philosophy"
         },
         {
           "title": "Life Ascending: The Ten Great Inventions of Evolution",
           "url": "https://a.co/d/0eWzmjln",
           "cover_url": "https://m.media-amazon.com/images/I/71JXLQ3gKUL._SL1200_.jpg",
-          "author": "Nick Lane"
+          "author": "Nick Lane",
+          "subsection": "Evolutionary Biology"
         },
         {
           "title": "The Epigenetics Revolution",
           "url": "https://a.co/d/09vuAB8y",
           "cover_url": "https://m.media-amazon.com/images/I/61zgbfLrD5L._SL1002_.jpg",
-          "author": "Nessa Carey"
+          "author": "Nessa Carey",
+          "subsection": "Genetic"
         },
         {
           "title": "The Intelligent Investor, 3rd Ed.",
           "url": "https://a.co/d/0e62F80d",
           "cover_url": "https://m.media-amazon.com/images/I/71piwvkH0sL._SL1500_.jpg",
-          "author": "Benjamin Graham"
-        },
-        {
-          "title": "I Contain Multitudes",
-          "url": "https://a.co/d/0eILELRD",
-          "cover_url": "https://m.media-amazon.com/images/I/91CAy8EFVmL._SL1500_.jpg",
-          "author": "Ed Yong"
+          "author": "Benjamin Graham",
+          "subsection": "Investing"
         },
         {
           "title": "Buffett: The Making of an American Capitalist",
           "url": "https://a.co/d/0f4vWtWX",
           "cover_url": "https://m.media-amazon.com/images/I/712nUD2i4kL._SL1500_.jpg",
-          "author": "Roger Lowenstein"
+          "author": "Roger Lowenstein",
+          "subsection": "Investing"
+        },
+        {
+          "title": "I Contain Multitudes",
+          "url": "https://a.co/d/0eILELRD",
+          "cover_url": "https://m.media-amazon.com/images/I/91CAy8EFVmL._SL1500_.jpg",
+          "author": "Ed Yong",
+          "subsection": "Microbiology"
+        }
+      ]
+    },
+    {
+      "name": "Fiction",
+      "books": [
+        {
+          "title": "Roadside Picnic",
+          "url": "https://a.co/d/0ciPKO1L",
+          "cover_url": "https://m.media-amazon.com/images/I/61LTNLuJuiL._SL1000_.jpg",
+          "author": "Arkady Strugatsky",
+          "subsection": "Sci-Fi"
+        },
+        {
+          "title": "Three Men in a Boat (To Say Nothing of the Dog)",
+          "url": "https://a.co/d/0c2mGarn",
+          "cover_url": "https://m.media-amazon.com/images/I/61yz7dgodQL._SL1360_.jpg",
+          "author": "Jerome K. Jerome",
+          "subsection": "Historical Satire"
+        },
+        {
+          "title": "The Good Soldier Svejk and His Fortunes in the World War",
+          "url": "https://a.co/d/09UI7xUn",
+          "cover_url": "https://m.media-amazon.com/images/I/81HQ9iYNM8L._SL1500_.jpg",
+          "author": "Jaroslav Hasek",
+          "subsection": "Historical Satire"
+        },
+        {
+          "title": "Amazon Book 0jeGhPQN",
+          "url": "https://a.co/d/0jeGhPQN",
+          "subsection": "Historical Satire"
         }
       ]
     }

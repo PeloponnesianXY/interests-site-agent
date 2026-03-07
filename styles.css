@@ -572,6 +572,41 @@ body.page-books {
   display: none;
 }
 
+.books-category-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.books-subsection-block {
+  display: grid;
+  gap: 14px;
+}
+
+.books-subsection-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.books-subsection-head h4 {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: #f8ecde;
+}
+
+.books-subsection-count {
+  min-width: 34px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(223, 179, 127, 0.12);
+  color: #f4d5b0;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .books-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
