@@ -22,265 +22,385 @@
 </nav>
 
 <!-- MUSIC:START -->
-<div class="music-layout">
+<div class="music-hub">
 
-  <section class="music-player-panel">
+  <aside class="music-genre-rail">
+    <div class="music-rail-copy">
+      <div class="music-kicker">Genres</div>
+      <h3 class="music-rail-title">Library</h3>
+      <p class="music-rail-caption">Browse the catalog by mood, era, or impulse. Tabs stay in alphabetical order.</p>
+    </div>
+    <div class="music-genre-tabs" role="tablist" aria-label="Music genres">
+      <button class="music-genre-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-80s-italian-pop-1" data-panel="80s-italian-pop-1">
+        <span class="music-genre-name">80s Italian Pop</span>
+        <span class="music-genre-count">5</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-80s-rock-2" data-panel="80s-rock-2">
+        <span class="music-genre-name">80s Rock</span>
+        <span class="music-genre-count">3</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-90s-rock-3" data-panel="90s-rock-3">
+        <span class="music-genre-name">90s Rock</span>
+        <span class="music-genre-count">1</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-blues-4" data-panel="blues-4">
+        <span class="music-genre-name">Blues</span>
+        <span class="music-genre-count">2</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-classic-rock-5" data-panel="classic-rock-5">
+        <span class="music-genre-name">Classic Rock</span>
+        <span class="music-genre-count">5</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-hair-metal-6" data-panel="hair-metal-6">
+        <span class="music-genre-name">Hair Metal</span>
+        <span class="music-genre-count">2</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-israeli-rock-7" data-panel="israeli-rock-7">
+        <span class="music-genre-name">Israeli Rock</span>
+        <span class="music-genre-count">3</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-modern-indie-8" data-panel="modern-indie-8">
+        <span class="music-genre-name">Modern Indie</span>
+        <span class="music-genre-count">4</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-punk-pop-9" data-panel="punk-pop-9">
+        <span class="music-genre-name">Punk Pop</span>
+        <span class="music-genre-count">3</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-rap-10" data-panel="rap-10">
+        <span class="music-genre-name">Rap</span>
+        <span class="music-genre-count">1</span>
+      </button>
+      <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-unsorted-11" data-panel="unsorted-11">
+        <span class="music-genre-name">Unsorted</span>
+        <span class="music-genre-count">1</span>
+      </button>
+    </div>
+  </aside>
+
+  <section class="music-stage">
+    <div class="music-stage-header">
+      <div class="music-kicker">Selected Genre</div>
+      <h3 class="music-stage-title" id="music-active-genre">80s Italian Pop</h3>
+      <div class="music-stage-meta" id="music-active-count">5 tracks</div>
+      <p class="music-stage-caption">Click a tab on the left to swap genres, then pick a tile to load the player.</p>
+    </div>
+
+    <div class="music-panels">
+      <section class="music-genre-panel" id="panel-80s-italian-pop-1" data-panel="80s-italian-pop-1" data-section-name="80s Italian Pop" data-track-count="5">
+        <div class="music-track-grid">
+          <button class="music-track-tile is-active" type="button" data-src="https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator" data-title="Felicità" data-share-url="https://open.spotify.com/track/7sXTcibuNYugjjYNfgf2kY" data-section="80s Italian Pop" aria-label="Play Felicità from 80s Italian Pop">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Felicità</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/1dgNG7Ze3PqXTIq9yqSihX?utm_source=generator" data-title="Ci sarà" data-share-url="https://open.spotify.com/track/1dgNG7Ze3PqXTIq9yqSihX" data-section="80s Italian Pop" aria-label="Play Ci sarà from 80s Italian Pop">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Ci sarà</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator" data-title="Su Di Noi" data-share-url="https://open.spotify.com/track/18tm5JUv0wMllGkoHMAdnL" data-section="80s Italian Pop" aria-label="Play Su Di Noi from 80s Italian Pop">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Su Di Noi</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/2LexhomCk1jo8hXYl4DeoO?utm_source=generator" data-title="Piccolo Amore" data-share-url="https://open.spotify.com/track/2LexhomCk1jo8hXYl4DeoO" data-section="80s Italian Pop" aria-label="Play Piccolo Amore from 80s Italian Pop">
+            <span class="music-track-index">04</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Piccolo Amore</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/03Q5UOgimyI86r1ufpWSQs?utm_source=generator" data-title="Firenze Santa Maria Novella" data-share-url="https://open.spotify.com/track/03Q5UOgimyI86r1ufpWSQs" data-section="80s Italian Pop" aria-label="Play Firenze Santa Maria Novella from 80s Italian Pop">
+            <span class="music-track-index">05</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Firenze Santa Maria Novella</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-80s-rock-2" data-panel="80s-rock-2" data-section-name="80s Rock" data-track-count="3" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/263aNAQCeFSWipk896byo6?utm_source=generator" data-title="Friday I&#x27;m in Love" data-share-url="https://open.spotify.com/track/263aNAQCeFSWipk896byo6" data-section="80s Rock" aria-label="Play Friday I&#x27;m in Love from 80s Rock">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Friday I&#x27;m in Love</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3fH4KjXFYMmljxrcGrbPj9?utm_source=generator" data-title="Don&#x27;t You (Forget About Me)" data-share-url="https://open.spotify.com/track/3fH4KjXFYMmljxrcGrbPj9" data-section="80s Rock" aria-label="Play Don&#x27;t You (Forget About Me) from 80s Rock">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Don&#x27;t You (Forget About Me)</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/25fQaP5GWQXhqHeLkcdPzO?utm_source=generator" data-title="Hold Back the Rain - 2009 Remaster" data-share-url="https://open.spotify.com/track/25fQaP5GWQXhqHeLkcdPzO" data-section="80s Rock" aria-label="Play Hold Back the Rain - 2009 Remaster from 80s Rock">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Hold Back the Rain - 2009 Remaster</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-90s-rock-3" data-panel="90s-rock-3" data-section-name="90s Rock" data-track-count="1" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/4P5KoWXOxwuobLmHXLMobV?utm_source=generator" data-title="Come As You Are" data-share-url="https://open.spotify.com/track/4P5KoWXOxwuobLmHXLMobV" data-section="90s Rock" aria-label="Play Come As You Are from 90s Rock">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Come As You Are</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-blues-4" data-panel="blues-4" data-section-name="Blues" data-track-count="2" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/4Vfgc4BdSKM2hRlkaRFc9C?utm_source=generator" data-title="Bring It On Home To ME" data-share-url="https://open.spotify.com/track/4Vfgc4BdSKM2hRlkaRFc9C" data-section="Blues" aria-label="Play Bring It On Home To ME from Blues">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Bring It On Home To ME</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3cg0dJfrQB66Qf2YthPb6G?utm_source=generator" data-title="The Thrill is Gone" data-share-url="https://open.spotify.com/track/3cg0dJfrQB66Qf2YthPb6G" data-section="Blues" aria-label="Play The Thrill is Gone from Blues">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">The Thrill is Gone</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-classic-rock-5" data-panel="classic-rock-5" data-section-name="Classic Rock" data-track-count="5" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/389QX9Q1eUOEZ19vtzzI9O?utm_source=generator" data-title="Classic Rock 1" data-share-url="https://open.spotify.com/track/389QX9Q1eUOEZ19vtzzI9O" data-section="Classic Rock" aria-label="Play Classic Rock 1 from Classic Rock">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Classic Rock 1</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/78dWfw6rMzKjfCct2pAKFG?utm_source=generator" data-title="Classic Rock 2" data-share-url="https://open.spotify.com/track/78dWfw6rMzKjfCct2pAKFG" data-section="Classic Rock" aria-label="Play Classic Rock 2 from Classic Rock">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Classic Rock 2</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/6Vjk8MNXpQpi0F4BefdTyq?utm_source=generator" data-title="Classic Rock 3" data-share-url="https://open.spotify.com/track/6Vjk8MNXpQpi0F4BefdTyq" data-section="Classic Rock" aria-label="Play Classic Rock 3 from Classic Rock">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Classic Rock 3</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/0pQskrTITgmCMyr85tb9qq?utm_source=generator" data-title="Spotify Track 0pQskrTI" data-share-url="https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq" data-section="Classic Rock" aria-label="Play Spotify Track 0pQskrTI from Classic Rock">
+            <span class="music-track-index">04</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Spotify Track 0pQskrTI</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/6H3kDe7CGoWYBabAeVWGiD?utm_source=generator" data-title="Gimme Shelter" data-share-url="https://open.spotify.com/track/6H3kDe7CGoWYBabAeVWGiD" data-section="Classic Rock" aria-label="Play Gimme Shelter from Classic Rock">
+            <span class="music-track-index">05</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Gimme Shelter</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-hair-metal-6" data-panel="hair-metal-6" data-section-name="Hair Metal" data-track-count="2" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/05RgAMGypEvqhNs5hPCbMS?utm_source=generator" data-title="Test Song" data-share-url="https://open.spotify.com/track/05RgAMGypEvqhNs5hPCbMS" data-section="Hair Metal" aria-label="Play Test Song from Hair Metal">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Test Song</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/5QRs63VVKNaqUjg6XSSckM?utm_source=generator" data-title="Don&#x27;t Know What You Got (Till It&#x27;s Gone)" data-share-url="https://open.spotify.com/track/5QRs63VVKNaqUjg6XSSckM" data-section="Hair Metal" aria-label="Play Don&#x27;t Know What You Got (Till It&#x27;s Gone) from Hair Metal">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Don&#x27;t Know What You Got (Till It&#x27;s Gone)</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-israeli-rock-7" data-panel="israeli-rock-7" data-section-name="Israeli Rock" data-track-count="3" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3KjK86Zg2gKF9aij1GmHFk?utm_source=generator" data-title="אהובתי" data-share-url="https://open.spotify.com/track/3KjK86Zg2gKF9aij1GmHFk" data-section="Israeli Rock" aria-label="Play אהובתי from Israeli Rock">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">אהובתי</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/5mw0CuWqR4bBZ7OFFSCTMP?utm_source=generator" data-title="עונות" data-share-url="https://open.spotify.com/track/5mw0CuWqR4bBZ7OFFSCTMP" data-section="Israeli Rock" aria-label="Play עונות from Israeli Rock">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">עונות</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/4HnvvY4arQ6MgKa38fZBL2?utm_source=generator" data-title="יהיה פיצוץ" data-share-url="https://open.spotify.com/track/4HnvvY4arQ6MgKa38fZBL2" data-section="Israeli Rock" aria-label="Play יהיה פיצוץ from Israeli Rock">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">יהיה פיצוץ</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-modern-indie-8" data-panel="modern-indie-8" data-section-name="Modern Indie" data-track-count="4" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/1GxLgrcumcN3TpWnrYQ9pV?utm_source=generator" data-title="Modern Indie 1" data-share-url="https://open.spotify.com/track/1GxLgrcumcN3TpWnrYQ9pV" data-section="Modern Indie" aria-label="Play Modern Indie 1 from Modern Indie">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Modern Indie 1</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/03y6MsaseYEO7DfwqsgcAI?utm_source=generator" data-title="Modern Indie 2" data-share-url="https://open.spotify.com/track/03y6MsaseYEO7DfwqsgcAI" data-section="Modern Indie" aria-label="Play Modern Indie 2 from Modern Indie">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Modern Indie 2</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/5XeFesFbtLpXzIVDNQP22n?utm_source=generator" data-title="Modern Indie 3" data-share-url="https://open.spotify.com/track/5XeFesFbtLpXzIVDNQP22n" data-section="Modern Indie" aria-label="Play Modern Indie 3 from Modern Indie">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Modern Indie 3</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3skn2lauGk7Dx6bVIt5DVj?utm_source=generator" data-title="Spotify Track 3skn2lau" data-share-url="https://open.spotify.com/track/3skn2lauGk7Dx6bVIt5DVj" data-section="Modern Indie" aria-label="Play Spotify Track 3skn2lau from Modern Indie">
+            <span class="music-track-index">04</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Spotify Track 3skn2lau</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-punk-pop-9" data-panel="punk-pop-9" data-section-name="Punk Pop" data-track-count="3" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/25FTMokYEbEWHEdss5JLZS?utm_source=generator" data-title="Teenage Dirtbag" data-share-url="https://open.spotify.com/track/25FTMokYEbEWHEdss5JLZS" data-section="Punk Pop" aria-label="Play Teenage Dirtbag from Punk Pop">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Teenage Dirtbag</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/33iv3wnGMrrDugd7GBso1z?utm_source=generator" data-title="My Own Worst Enemy" data-share-url="https://open.spotify.com/track/33iv3wnGMrrDugd7GBso1z" data-section="Punk Pop" aria-label="Play My Own Worst Enemy from Punk Pop">
+            <span class="music-track-index">02</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">My Own Worst Enemy</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/4GiVcDqNQI0fc0yYuRGH9m?utm_source=generator" data-title="4GiVcDqNQI0fc0yYuRGH9m" data-share-url="https://open.spotify.com/track/4GiVcDqNQI0fc0yYuRGH9m" data-section="Punk Pop" aria-label="Play 4GiVcDqNQI0fc0yYuRGH9m from Punk Pop">
+            <span class="music-track-index">03</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">4GiVcDqNQI0fc0yYuRGH9m</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-rap-10" data-panel="rap-10" data-section-name="Rap" data-track-count="1" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3ia3dJETSOllPsv3LJkE35?utm_source=generator" data-title="California Love - Original Version" data-share-url="https://open.spotify.com/track/3ia3dJETSOllPsv3LJkE35" data-section="Rap" aria-label="Play California Love - Original Version from Rap">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">California Love - Original Version</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+      <section class="music-genre-panel" id="panel-unsorted-11" data-panel="unsorted-11" data-section-name="Unsorted" data-track-count="1" hidden>
+        <div class="music-track-grid">
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=generator" data-title="Test Song" data-share-url="https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp" data-section="Unsorted" aria-label="Play Test Song from Unsorted">
+            <span class="music-track-index">01</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">Test Song</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+            <span class="music-track-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <aside class="music-player-panel">
     <div class="music-player-copy">
       <div class="music-kicker">Now Playing</div>
       <h3 class="music-player-section" id="music-player-section">80s Italian Pop</h3>
       <div class="music-player-title" id="music-player-title">Felicità</div>
-      <div class="music-player-caption">Pick any track from the library to swap the player instantly.</div>
+      <div class="music-player-caption">One player, instant swaps. The page stays fast even as the library grows.</div>
       <a class="music-player-link inline-link" id="music-player-link" href="https://open.spotify.com/track/7sXTcibuNYugjjYNfgf2kY" target="_blank" rel="noopener noreferrer">Open in Spotify</a>
     </div>
 
     <iframe class="spotify music-player-frame" id="music-player-frame" title="Felicità" src="https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" scrolling="no"></iframe>
-  </section>
-
-  <div class="music-sections">
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>80s Italian Pop</h3>
-        <div class="music-section-count">5 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/7sXTcibuNYugjjYNfgf2kY?utm_source=generator" data-title="Felicità" data-share-url="https://open.spotify.com/track/7sXTcibuNYugjjYNfgf2kY" data-section="80s Italian Pop" aria-label="Play Felicità from 80s Italian Pop">
-          <span class="music-song-title">Felicità</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/1dgNG7Ze3PqXTIq9yqSihX?utm_source=generator" data-title="Ci sarà" data-share-url="https://open.spotify.com/track/1dgNG7Ze3PqXTIq9yqSihX" data-section="80s Italian Pop" aria-label="Play Ci sarà from 80s Italian Pop">
-          <span class="music-song-title">Ci sarà</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/18tm5JUv0wMllGkoHMAdnL?utm_source=generator" data-title="Su Di Noi" data-share-url="https://open.spotify.com/track/18tm5JUv0wMllGkoHMAdnL" data-section="80s Italian Pop" aria-label="Play Su Di Noi from 80s Italian Pop">
-          <span class="music-song-title">Su Di Noi</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/2LexhomCk1jo8hXYl4DeoO?utm_source=generator" data-title="Piccolo Amore" data-share-url="https://open.spotify.com/track/2LexhomCk1jo8hXYl4DeoO" data-section="80s Italian Pop" aria-label="Play Piccolo Amore from 80s Italian Pop">
-          <span class="music-song-title">Piccolo Amore</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/03Q5UOgimyI86r1ufpWSQs?utm_source=generator" data-title="Firenze Santa Maria Novella" data-share-url="https://open.spotify.com/track/03Q5UOgimyI86r1ufpWSQs" data-section="80s Italian Pop" aria-label="Play Firenze Santa Maria Novella from 80s Italian Pop">
-          <span class="music-song-title">Firenze Santa Maria Novella</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>80s Rock</h3>
-        <div class="music-section-count">3 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/263aNAQCeFSWipk896byo6?utm_source=generator" data-title="Friday I&#x27;m in Love" data-share-url="https://open.spotify.com/track/263aNAQCeFSWipk896byo6" data-section="80s Rock" aria-label="Play Friday I&#x27;m in Love from 80s Rock">
-          <span class="music-song-title">Friday I&#x27;m in Love</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3fH4KjXFYMmljxrcGrbPj9?utm_source=generator" data-title="Don&#x27;t You (Forget About Me)" data-share-url="https://open.spotify.com/track/3fH4KjXFYMmljxrcGrbPj9" data-section="80s Rock" aria-label="Play Don&#x27;t You (Forget About Me) from 80s Rock">
-          <span class="music-song-title">Don&#x27;t You (Forget About Me)</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/25fQaP5GWQXhqHeLkcdPzO?utm_source=generator" data-title="Hold Back the Rain - 2009 Remaster" data-share-url="https://open.spotify.com/track/25fQaP5GWQXhqHeLkcdPzO" data-section="80s Rock" aria-label="Play Hold Back the Rain - 2009 Remaster from 80s Rock">
-          <span class="music-song-title">Hold Back the Rain - 2009 Remaster</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>90s Rock</h3>
-        <div class="music-section-count">1 track</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/4P5KoWXOxwuobLmHXLMobV?utm_source=generator" data-title="Come As You Are" data-share-url="https://open.spotify.com/track/4P5KoWXOxwuobLmHXLMobV" data-section="90s Rock" aria-label="Play Come As You Are from 90s Rock">
-          <span class="music-song-title">Come As You Are</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Blues</h3>
-        <div class="music-section-count">2 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/4Vfgc4BdSKM2hRlkaRFc9C?utm_source=generator" data-title="Bring It On Home To ME" data-share-url="https://open.spotify.com/track/4Vfgc4BdSKM2hRlkaRFc9C" data-section="Blues" aria-label="Play Bring It On Home To ME from Blues">
-          <span class="music-song-title">Bring It On Home To ME</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3cg0dJfrQB66Qf2YthPb6G?utm_source=generator" data-title="The Thrill is Gone" data-share-url="https://open.spotify.com/track/3cg0dJfrQB66Qf2YthPb6G" data-section="Blues" aria-label="Play The Thrill is Gone from Blues">
-          <span class="music-song-title">The Thrill is Gone</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Classic Rock</h3>
-        <div class="music-section-count">5 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/389QX9Q1eUOEZ19vtzzI9O?utm_source=generator" data-title="Classic Rock 1" data-share-url="https://open.spotify.com/track/389QX9Q1eUOEZ19vtzzI9O" data-section="Classic Rock" aria-label="Play Classic Rock 1 from Classic Rock">
-          <span class="music-song-title">Classic Rock 1</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/78dWfw6rMzKjfCct2pAKFG?utm_source=generator" data-title="Classic Rock 2" data-share-url="https://open.spotify.com/track/78dWfw6rMzKjfCct2pAKFG" data-section="Classic Rock" aria-label="Play Classic Rock 2 from Classic Rock">
-          <span class="music-song-title">Classic Rock 2</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/6Vjk8MNXpQpi0F4BefdTyq?utm_source=generator" data-title="Classic Rock 3" data-share-url="https://open.spotify.com/track/6Vjk8MNXpQpi0F4BefdTyq" data-section="Classic Rock" aria-label="Play Classic Rock 3 from Classic Rock">
-          <span class="music-song-title">Classic Rock 3</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/0pQskrTITgmCMyr85tb9qq?utm_source=generator" data-title="Spotify Track 0pQskrTI" data-share-url="https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq" data-section="Classic Rock" aria-label="Play Spotify Track 0pQskrTI from Classic Rock">
-          <span class="music-song-title">Spotify Track 0pQskrTI</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/6H3kDe7CGoWYBabAeVWGiD?utm_source=generator" data-title="Gimme Shelter" data-share-url="https://open.spotify.com/track/6H3kDe7CGoWYBabAeVWGiD" data-section="Classic Rock" aria-label="Play Gimme Shelter from Classic Rock">
-          <span class="music-song-title">Gimme Shelter</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Hair Metal</h3>
-        <div class="music-section-count">2 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/05RgAMGypEvqhNs5hPCbMS?utm_source=generator" data-title="Test Song" data-share-url="https://open.spotify.com/track/05RgAMGypEvqhNs5hPCbMS" data-section="Hair Metal" aria-label="Play Test Song from Hair Metal">
-          <span class="music-song-title">Test Song</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/5QRs63VVKNaqUjg6XSSckM?utm_source=generator" data-title="Don&#x27;t Know What You Got (Till It&#x27;s Gone)" data-share-url="https://open.spotify.com/track/5QRs63VVKNaqUjg6XSSckM" data-section="Hair Metal" aria-label="Play Don&#x27;t Know What You Got (Till It&#x27;s Gone) from Hair Metal">
-          <span class="music-song-title">Don&#x27;t Know What You Got (Till It&#x27;s Gone)</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Modern Indie</h3>
-        <div class="music-section-count">4 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/1GxLgrcumcN3TpWnrYQ9pV?utm_source=generator" data-title="Modern Indie 1" data-share-url="https://open.spotify.com/track/1GxLgrcumcN3TpWnrYQ9pV" data-section="Modern Indie" aria-label="Play Modern Indie 1 from Modern Indie">
-          <span class="music-song-title">Modern Indie 1</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/03y6MsaseYEO7DfwqsgcAI?utm_source=generator" data-title="Modern Indie 2" data-share-url="https://open.spotify.com/track/03y6MsaseYEO7DfwqsgcAI" data-section="Modern Indie" aria-label="Play Modern Indie 2 from Modern Indie">
-          <span class="music-song-title">Modern Indie 2</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/5XeFesFbtLpXzIVDNQP22n?utm_source=generator" data-title="Modern Indie 3" data-share-url="https://open.spotify.com/track/5XeFesFbtLpXzIVDNQP22n" data-section="Modern Indie" aria-label="Play Modern Indie 3 from Modern Indie">
-          <span class="music-song-title">Modern Indie 3</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3skn2lauGk7Dx6bVIt5DVj?utm_source=generator" data-title="Spotify Track 3skn2lau" data-share-url="https://open.spotify.com/track/3skn2lauGk7Dx6bVIt5DVj" data-section="Modern Indie" aria-label="Play Spotify Track 3skn2lau from Modern Indie">
-          <span class="music-song-title">Spotify Track 3skn2lau</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Punk Pop</h3>
-        <div class="music-section-count">3 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/25FTMokYEbEWHEdss5JLZS?utm_source=generator" data-title="Teenage Dirtbag" data-share-url="https://open.spotify.com/track/25FTMokYEbEWHEdss5JLZS" data-section="Punk Pop" aria-label="Play Teenage Dirtbag from Punk Pop">
-          <span class="music-song-title">Teenage Dirtbag</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/33iv3wnGMrrDugd7GBso1z?utm_source=generator" data-title="My Own Worst Enemy" data-share-url="https://open.spotify.com/track/33iv3wnGMrrDugd7GBso1z" data-section="Punk Pop" aria-label="Play My Own Worst Enemy from Punk Pop">
-          <span class="music-song-title">My Own Worst Enemy</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/4GiVcDqNQI0fc0yYuRGH9m?utm_source=generator" data-title="4GiVcDqNQI0fc0yYuRGH9m" data-share-url="https://open.spotify.com/track/4GiVcDqNQI0fc0yYuRGH9m" data-section="Punk Pop" aria-label="Play 4GiVcDqNQI0fc0yYuRGH9m from Punk Pop">
-          <span class="music-song-title">4GiVcDqNQI0fc0yYuRGH9m</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Rap</h3>
-        <div class="music-section-count">1 track</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3ia3dJETSOllPsv3LJkE35?utm_source=generator" data-title="California Love - Original Version" data-share-url="https://open.spotify.com/track/3ia3dJETSOllPsv3LJkE35" data-section="Rap" aria-label="Play California Love - Original Version from Rap">
-          <span class="music-song-title">California Love - Original Version</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Unsorted</h3>
-        <div class="music-section-count">1 track</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3n3Ppam7vgaVa1iaRUc9Lp?utm_source=generator" data-title="Test Song" data-share-url="https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp" data-section="Unsorted" aria-label="Play Test Song from Unsorted">
-          <span class="music-song-title">Test Song</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="style-tile music-section-tile">
-      <div class="music-section-head">
-        <h3>Israeli Rock</h3>
-        <div class="music-section-count">3 tracks</div>
-      </div>
-
-      <div class="music-song-list">
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/3KjK86Zg2gKF9aij1GmHFk?utm_source=generator" data-title="אהובתי" data-share-url="https://open.spotify.com/track/3KjK86Zg2gKF9aij1GmHFk" data-section="Israeli Rock" aria-label="Play אהובתי from Israeli Rock">
-          <span class="music-song-title">אהובתי</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/5mw0CuWqR4bBZ7OFFSCTMP?utm_source=generator" data-title="עונות" data-share-url="https://open.spotify.com/track/5mw0CuWqR4bBZ7OFFSCTMP" data-section="Israeli Rock" aria-label="Play עונות from Israeli Rock">
-          <span class="music-song-title">עונות</span>
-          <span class="music-song-action">Play</span>
-        </button>
-        <button class="music-song-button" type="button" data-src="https://open.spotify.com/embed/track/4HnvvY4arQ6MgKa38fZBL2?utm_source=generator" data-title="יהיה פיצוץ" data-share-url="https://open.spotify.com/track/4HnvvY4arQ6MgKa38fZBL2" data-section="Israeli Rock" aria-label="Play יהיה פיצוץ from Israeli Rock">
-          <span class="music-song-title">יהיה פיצוץ</span>
-          <span class="music-song-action">Play</span>
-        </button>
-      </div>
-    </div>
-
-  </div>
+  </aside>
 </div>
 <!-- MUSIC:END -->
 
 <script>
   (function () {
-    function updatePlayer(button) {
-      if (!button) return;
+    function formatTrackCount(count) {
+      return count + " track" + (count === 1 ? "" : "s");
+    }
 
-      var src = button.getAttribute("data-src");
-      var title = button.getAttribute("data-title") || "Spotify Embed";
-      var shareUrl = button.getAttribute("data-share-url") || "#";
-      var section = button.getAttribute("data-section") || "Music";
+    function updatePlayer(tile) {
+      if (!tile) return;
+
+      var src = tile.getAttribute("data-src");
+      var title = tile.getAttribute("data-title") || "Spotify Embed";
+      var shareUrl = tile.getAttribute("data-share-url") || "#";
+      var section = tile.getAttribute("data-section") || "Music";
 
       var frame = document.getElementById("music-player-frame");
       var titleNode = document.getElementById("music-player-title");
@@ -295,28 +415,66 @@
       sectionNode.textContent = section;
       linkNode.setAttribute("href", shareUrl);
 
-      document.querySelectorAll(".music-song-button.is-active").forEach(function (node) {
+      document.querySelectorAll(".music-track-tile.is-active").forEach(function (node) {
         node.classList.remove("is-active");
       });
-      button.classList.add("is-active");
+      tile.classList.add("is-active");
+    }
+
+    function activateGenre(tab) {
+      if (!tab) return;
+
+      var panelId = tab.getAttribute("data-panel");
+      var nextPanel = panelId ? document.getElementById("panel-" + panelId) : null;
+      var genreNode = document.getElementById("music-active-genre");
+      var countNode = document.getElementById("music-active-count");
+
+      if (!nextPanel || !genreNode || !countNode) return;
+
+      document.querySelectorAll(".music-genre-tab.is-active").forEach(function (node) {
+        node.classList.remove("is-active");
+        node.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("is-active");
+      tab.setAttribute("aria-selected", "true");
+
+      document.querySelectorAll(".music-genre-panel[data-panel]").forEach(function (panel) {
+        panel.hidden = panel !== nextPanel;
+      });
+
+      genreNode.textContent = nextPanel.getAttribute("data-section-name") || "Music";
+      countNode.textContent = formatTrackCount(Number(nextPanel.getAttribute("data-track-count") || "0"));
+
+      var activeTile = nextPanel.querySelector(".music-track-tile.is-active");
+      var firstTile = nextPanel.querySelector(".music-track-tile[data-src]");
+      if (activeTile) {
+        updatePlayer(activeTile);
+      } else if (firstTile) {
+        updatePlayer(firstTile);
+      }
     }
 
     function init() {
-      var buttons = document.querySelectorAll(".music-song-button[data-src]");
-      buttons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          updatePlayer(button);
-        });
-        button.addEventListener("keydown", function (event) {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            updatePlayer(button);
-          }
+      var tabs = document.querySelectorAll(".music-genre-tab[data-panel]");
+      var tiles = document.querySelectorAll(".music-track-tile[data-src]");
+
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          activateGenre(tab);
         });
       });
 
-      if (buttons.length) {
-        updatePlayer(buttons[0]);
+      tiles.forEach(function (tile) {
+        tile.addEventListener("click", function () {
+          updatePlayer(tile);
+        });
+      });
+
+      var initialTab = document.querySelector(".music-genre-tab.is-active") || tabs[0];
+      if (initialTab) {
+        activateGenre(initialTab);
+      } else if (tiles.length) {
+        updatePlayer(tiles[0]);
       }
     }
 

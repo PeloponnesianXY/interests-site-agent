@@ -441,16 +441,70 @@ def upsert_book(section: str, title: str, url: str, dry_run: bool = False) -> di
 
 
 def render_books_block(store: dict[str, Any]) -> str:
-    lines: list[str] = ['<div class="styles-grid books-tile-grid">']
+    sections = [
+        section
+        for section in store.get("sections", [])
+        if isinstance(section, dict)
+    ]
+    sections = sorted(sections, key=lambda section: str(section.get("name", "")).casefold())
+
+    preferred_order = {"fiction": 0, "non-fiction": 1, "nonfiction": 1}
+    sections.sort(key=lambda section: (preferred_order.get(normalize(str(section.get("name", ""))), 99), str(section.get("name", "")).casefold()))
+
+    first_section_name = html.escape(str(sections[0].get("name", "Books"))) if sections else "Books"
+    first_section_id = normalize(str(sections[0].get("name", ""))).replace(" ", "-") if sections else "books"
+    first_count = len([book for book in sections[0].get("books", []) if isinstance(book, dict)]) if sections else 0
+
+    lines: list[str] = ['<div class="books-hub">']
     metadata_cache: dict[str, dict[str, str]] = {}
 
-    for section in store.get("sections", []):
-        section_name = html.escape(str(section.get("name", "Untitled")))
-        lines.append("")
-        lines.append('  <div class="style-tile">')
-        lines.append(f"    <h3>{section_name}</h3>")
-        lines.append("")
-        lines.append('    <div class="style-embed">')
+    lines.append("")
+    lines.append('  <aside class="books-rail">')
+    lines.append('    <div class="books-rail-copy">')
+    lines.append('      <div class="music-kicker">Shelves</div>')
+    lines.append('      <h3 class="books-rail-title">Books</h3>')
+    lines.append('      <p class="books-rail-caption">Move between fiction and non-fiction from the left rail and browse the shelf in the center.</p>')
+    lines.append("    </div>")
+    lines.append('    <div class="books-category-tabs" role="tablist" aria-label="Book categories">')
+
+    for section in sections:
+        section_name_raw = str(section.get("name", "Untitled"))
+        section_name = html.escape(section_name_raw)
+        section_id = normalize(section_name_raw).replace(" ", "-")
+        books = [book for book in section.get("books", []) if isinstance(book, dict)]
+        active_class = " is-active" if section_id == first_section_id else ""
+        lines.append(
+            f'      <button class="books-category-tab{active_class}" type="button" role="tab"'
+            f' aria-selected="{"true" if active_class else "false"}"'
+            f' aria-controls="books-panel-{section_id}" data-panel="{section_id}">'
+        )
+        lines.append(f'        <span class="books-category-name">{section_name}</span>')
+        lines.append(f'        <span class="books-category-count">{len(books)}</span>')
+        lines.append("      </button>")
+
+    lines.append("    </div>")
+    lines.append("  </aside>")
+    lines.append("")
+    lines.append('  <section class="books-stage">')
+    lines.append('    <div class="books-stage-header">')
+    lines.append('      <div class="music-kicker">Selected Shelf</div>')
+    lines.append(f'      <h3 class="books-stage-title" id="books-active-category">{first_section_name}</h3>')
+    lines.append(f'      <div class="books-stage-meta" id="books-active-count">{first_count} book{"s" if first_count != 1 else ""}</div>')
+    lines.append('      <p class="books-stage-caption">Each tile links straight to Amazon. Covers stay visible so the page feels like an actual shelf.</p>')
+    lines.append("    </div>")
+    lines.append("")
+    lines.append('    <div class="books-panels">')
+
+    for section in sections:
+        section_name_raw = str(section.get("name", "Untitled"))
+        section_name = html.escape(section_name_raw)
+        section_id = normalize(section_name_raw).replace(" ", "-")
+        hidden_attr = "" if section_id == first_section_id else " hidden"
+        lines.append(
+            f'      <section class="books-category-panel" id="books-panel-{section_id}" data-panel="{section_id}"'
+            f' data-section-name="{section_name}" data-book-count="{len([book for book in section.get("books", []) if isinstance(book, dict)])}"{hidden_attr}>'
+        )
+        lines.append('        <div class="books-card-grid">')
 
         books = [book for book in section.get("books", []) if isinstance(book, dict)]
         for book in books:
@@ -473,32 +527,32 @@ def render_books_block(store: dict[str, Any]) -> str:
             title = html.escape(title_raw)
             url = html.escape(url_raw)
             author = html.escape(author_raw)
-            lines.append('      <div class="book-item">')
-            lines.append(f'        <a class="book-cover-link" href="{url}" target="_blank" rel="noopener noreferrer">')
+            lines.append(f'          <a class="book-card" href="{url}" target="_blank" rel="noopener noreferrer">')
+            lines.append('            <div class="book-card-media">')
             if cover_url_raw:
                 lines.append(
-                    f'          <img class="book-cover" src="{html.escape(cover_url_raw)}" alt="Cover for {title}" loading="lazy">'
+                    f'              <img class="book-cover" src="{html.escape(cover_url_raw)}" alt="Cover for {title}" loading="lazy">'
                 )
             else:
-                lines.append('          <div class="book-cover book-cover-placeholder">Book</div>')
-            lines.append("        </a>")
-            lines.append('        <div class="book-content">')
-            lines.append(
-                f'          <a class="book-title inline-link" href="{url}" target="_blank" rel="noopener noreferrer">{title}</a>'
-            )
+                lines.append('              <div class="book-cover book-cover-placeholder">Book</div>')
+            lines.append("            </div>")
+            lines.append('            <div class="book-card-body">')
+            lines.append(f'              <div class="book-card-title">{title}</div>')
             if author_raw:
-                lines.append(f'          <div class="book-author">{author}</div>')
-            lines.append("        </div>")
-            lines.append("      </div>")
-            lines.append("")
+                lines.append(f'              <div class="book-author">{author}</div>')
+            lines.append(f'              <div class="book-card-link">Open on Amazon</div>')
+            lines.append("            </div>")
+            lines.append("          </a>")
 
         if not books:
-            lines.append('      <div class="book-empty">No books yet.</div>')
+            lines.append('          <div class="book-empty">No books yet.</div>')
 
-        lines.append("    </div>")
-        lines.append("  </div>")
+        lines.append("        </div>")
+        lines.append("      </section>")
 
     lines.append("")
+    lines.append("    </div>")
+    lines.append("  </section>")
     lines.append("</div>")
     return "\n".join(lines)
 

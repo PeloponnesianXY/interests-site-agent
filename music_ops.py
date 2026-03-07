@@ -95,15 +95,34 @@ def _spotify_share_url(embed_url: str) -> str:
     return f"https://open.spotify.com/{kind}/{item_id}"
 
 
+def _slugify(text: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", text.casefold()).strip("-")
+    return slug or "section"
+
+
 def render_music_block(store: dict[str, Any]) -> str:
+    sections = [
+        section
+        for section in store.get("sections", [])
+        if isinstance(section, dict)
+    ]
+    sections = sorted(sections, key=lambda section: str(section.get("name", "")).casefold())
+
     first_song: dict[str, str] | None = None
     first_section_name = ""
-    for section in store.get("sections", []):
+    first_section_id = ""
+    for index, section in enumerate(sections):
         songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
+        section_name = str(section.get("name", "Untitled"))
         if songs:
             first_song = songs[0]
-            first_section_name = str(section.get("name", "Untitled"))
+            first_section_name = section_name
+            first_section_id = f"{_slugify(section_name)}-{index + 1}"
             break
+
+    if not first_section_id and sections:
+        first_section_name = str(sections[0].get("name", "Untitled"))
+        first_section_id = f"{_slugify(first_section_name)}-1"
 
     if first_song:
         default_title = html.escape(str(first_song.get("title", "Spotify Embed")))
@@ -116,14 +135,102 @@ def render_music_block(store: dict[str, Any]) -> str:
         default_share_url = "#"
         default_section = "Music"
 
-    lines: list[str] = ['<div class="music-layout">']
+    lines: list[str] = ['<div class="music-hub">']
     lines.append("")
-    lines.append('  <section class="music-player-panel">')
+    lines.append('  <aside class="music-genre-rail">')
+    lines.append('    <div class="music-rail-copy">')
+    lines.append('      <div class="music-kicker">Genres</div>')
+    lines.append('      <h3 class="music-rail-title">Library</h3>')
+    lines.append('      <p class="music-rail-caption">Browse the catalog by mood, era, or impulse. Tabs stay in alphabetical order.</p>')
+    lines.append("    </div>")
+    lines.append('    <div class="music-genre-tabs" role="tablist" aria-label="Music genres">')
+
+    for index, section in enumerate(sections):
+        section_name_raw = str(section.get("name", "Untitled"))
+        section_name = html.escape(section_name_raw)
+        songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
+        section_id = f"{_slugify(section_name_raw)}-{index + 1}"
+        active_class = " is-active" if section_id == first_section_id else ""
+        lines.append(
+            f'      <button class="music-genre-tab{active_class}"'
+            f' type="button" role="tab" aria-selected="{"true" if active_class else "false"}"'
+            f' aria-controls="panel-{section_id}" data-panel="{section_id}">'
+        )
+        lines.append(f'        <span class="music-genre-name">{section_name}</span>')
+        lines.append(f'        <span class="music-genre-count">{len(songs)}</span>')
+        lines.append("      </button>")
+
+    lines.append("    </div>")
+    lines.append("  </aside>")
+    lines.append("")
+    lines.append('  <section class="music-stage">')
+    lines.append('    <div class="music-stage-header">')
+    lines.append('      <div class="music-kicker">Selected Genre</div>')
+    lines.append(f'      <h3 class="music-stage-title" id="music-active-genre">{default_section}</h3>')
+    if first_section_id:
+        first_count = next(
+            (
+                len([song for song in section.get("songs", []) if isinstance(song, dict)])
+                for idx, section in enumerate(sections)
+                if f"{_slugify(str(section.get('name', 'Untitled')))}-{idx + 1}" == first_section_id
+            ),
+            0,
+        )
+    else:
+        first_count = 0
+    lines.append(f'      <div class="music-stage-meta" id="music-active-count">{first_count} track{"s" if first_count != 1 else ""}</div>')
+    lines.append('      <p class="music-stage-caption">Click a tab on the left to swap genres, then pick a tile to load the player.</p>')
+    lines.append("    </div>")
+    lines.append("")
+    lines.append('    <div class="music-panels">')
+
+    for index, section in enumerate(sections):
+        section_name_raw = str(section.get("name", "Untitled"))
+        section_name = html.escape(section_name_raw)
+        songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
+        section_id = f"{_slugify(section_name_raw)}-{index + 1}"
+        hidden_attr = "" if section_id == first_section_id else " hidden"
+        lines.append(
+            f'      <section class="music-genre-panel" id="panel-{section_id}" data-panel="{section_id}"'
+            f' data-section-name="{section_name}" data-track-count="{len(songs)}"{hidden_attr}>'
+        )
+        lines.append('        <div class="music-track-grid">')
+
+        for song_index, song in enumerate(songs, start=1):
+            title = html.escape(str(song.get("title", "Spotify Embed")))
+            url_raw = str(song.get("url", ""))
+            url = html.escape(url_raw)
+            share_url = html.escape(_spotify_share_url(url_raw))
+            active_track = " is-active" if first_song is song else ""
+            lines.append(
+                '          <button class="music-track-tile'
+                f'{active_track}" type="button" data-src="{url}" data-title="{title}"'
+                f' data-share-url="{share_url}" data-section="{section_name}"'
+                f' aria-label="Play {title} from {section_name}">'
+            )
+            lines.append(f'            <span class="music-track-index">{song_index:02d}</span>')
+            lines.append('            <span class="music-track-copy">')
+            lines.append(f'              <span class="music-track-title">{title}</span>')
+            lines.append('              <span class="music-track-action">Load player</span>')
+            lines.append("            </span>")
+            lines.append('            <span class="music-track-glow" aria-hidden="true"></span>')
+            lines.append("          </button>")
+
+        if not songs:
+            lines.append('          <div class="music-empty">No songs yet.</div>')
+
+        lines.append("        </div>")
+        lines.append("      </section>")
+
+    lines.append("    </div>")
+    lines.append("  </section>")
+    lines.append("")
+    lines.append('  <aside class="music-player-panel">')
     lines.append('    <div class="music-player-copy">')
     lines.append('      <div class="music-kicker">Now Playing</div>')
     lines.append(f'      <h3 class="music-player-section" id="music-player-section">{default_section}</h3>')
     lines.append(f'      <div class="music-player-title" id="music-player-title">{default_title}</div>')
-    lines.append('      <div class="music-player-caption">Pick any track from the library to swap the player instantly.</div>')
+    lines.append('      <div class="music-player-caption">One player, instant swaps. The page stays fast even as the library grows.</div>')
     lines.append(
         '      <a class="music-player-link inline-link" id="music-player-link" '
         f'href="{default_share_url}" target="_blank" rel="noopener noreferrer">Open in Spotify</a>'
@@ -139,44 +246,7 @@ def render_music_block(store: dict[str, Any]) -> str:
         )
     else:
         lines.append('    <div class="music-player-empty" id="music-player-empty">No songs yet.</div>')
-    lines.append("  </section>")
-    lines.append("")
-    lines.append('  <div class="music-sections">')
-
-    for section in store.get("sections", []):
-        section_name = html.escape(str(section.get("name", "Untitled")))
-        songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
-        lines.append("")
-        lines.append('    <div class="style-tile music-section-tile">')
-        lines.append('      <div class="music-section-head">')
-        lines.append(f"        <h3>{section_name}</h3>")
-        lines.append(f'        <div class="music-section-count">{len(songs)} track{"s" if len(songs) != 1 else ""}</div>')
-        lines.append("      </div>")
-        lines.append("")
-        lines.append('      <div class="music-song-list">')
-
-        for song in songs:
-            title = html.escape(str(song.get("title", "Spotify Embed")))
-            url_raw = str(song.get("url", ""))
-            url = html.escape(url_raw)
-            share_url = html.escape(_spotify_share_url(url_raw))
-            lines.append(
-                '        <button class="music-song-button" type="button" '
-                f'data-src="{url}" data-title="{title}" data-share-url="{share_url}" '
-                f'data-section="{section_name}" aria-label="Play {title} from {section_name}">'
-            )
-            lines.append(f'          <span class="music-song-title">{title}</span>')
-            lines.append('          <span class="music-song-action">Play</span>')
-            lines.append("        </button>")
-
-        if not songs:
-            lines.append('        <div class="music-empty">No songs yet.</div>')
-
-        lines.append("      </div>")
-        lines.append("    </div>")
-
-    lines.append("")
-    lines.append("  </div>")
+    lines.append("  </aside>")
     lines.append("</div>")
     return "\n".join(lines)
 

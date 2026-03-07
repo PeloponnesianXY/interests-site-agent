@@ -27,124 +27,201 @@
 </div>
 
 <!-- BOOKS:START -->
-<div class="styles-grid books-tile-grid">
+<div class="books-hub">
 
-  <div class="style-tile">
-    <h3>Fiction</h3>
+  <aside class="books-rail">
+    <div class="books-rail-copy">
+      <div class="music-kicker">Shelves</div>
+      <h3 class="books-rail-title">Books</h3>
+      <p class="books-rail-caption">Move between fiction and non-fiction from the left rail and browse the shelf in the center.</p>
+    </div>
+    <div class="books-category-tabs" role="tablist" aria-label="Book categories">
+      <button class="books-category-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="books-panel-fiction" data-panel="fiction">
+        <span class="books-category-name">Fiction</span>
+        <span class="books-category-count">4</span>
+      </button>
+      <button class="books-category-tab" type="button" role="tab" aria-selected="false" aria-controls="books-panel-non-fiction" data-panel="non-fiction">
+        <span class="books-category-name">Non-fiction</span>
+        <span class="books-category-count">6</span>
+      </button>
+    </div>
+  </aside>
 
-    <div class="style-embed">
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0c2mGarn" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/61yz7dgodQL._SL1360_.jpg" alt="Cover for Three Men in a Boat (To Say Nothing of the Dog)" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0c2mGarn" target="_blank" rel="noopener noreferrer">Three Men in a Boat (To Say Nothing of the Dog)</a>
-          <div class="book-author">Jerome K. Jerome</div>
+  <section class="books-stage">
+    <div class="books-stage-header">
+      <div class="music-kicker">Selected Shelf</div>
+      <h3 class="books-stage-title" id="books-active-category">Fiction</h3>
+      <div class="books-stage-meta" id="books-active-count">4 books</div>
+      <p class="books-stage-caption">Each tile links straight to Amazon. Covers stay visible so the page feels like an actual shelf.</p>
+    </div>
+
+    <div class="books-panels">
+      <section class="books-category-panel" id="books-panel-fiction" data-panel="fiction" data-section-name="Fiction" data-book-count="4">
+        <div class="books-card-grid">
+          <a class="book-card" href="https://a.co/d/0c2mGarn" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/61yz7dgodQL._SL1360_.jpg" alt="Cover for Three Men in a Boat (To Say Nothing of the Dog)" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">Three Men in a Boat (To Say Nothing of the Dog)</div>
+              <div class="book-author">Jerome K. Jerome</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0ciPKO1L" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/61LTNLuJuiL._SL1000_.jpg" alt="Cover for Roadside Picnic" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">Roadside Picnic</div>
+              <div class="book-author">Arkady Strugatsky</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/09UI7xUn" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/81HQ9iYNM8L._SL1500_.jpg" alt="Cover for The Good Soldier Svejk and His Fortunes in the World War" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">The Good Soldier Svejk and His Fortunes in the World War</div>
+              <div class="book-author">Jaroslav Hasek</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0jeGhPQN" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/51-vc5zG83L.jpg" alt="Cover for The Twelve Chairs" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">The Twelve Chairs</div>
+              <div class="book-author">Ilya Ilf</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
         </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0ciPKO1L" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/61LTNLuJuiL._SL1000_.jpg" alt="Cover for Roadside Picnic" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0ciPKO1L" target="_blank" rel="noopener noreferrer">Roadside Picnic</a>
-          <div class="book-author">Arkady Strugatsky</div>
+      </section>
+      <section class="books-category-panel" id="books-panel-non-fiction" data-panel="non-fiction" data-section-name="Non-fiction" data-book-count="6" hidden>
+        <div class="books-card-grid">
+          <a class="book-card" href="https://a.co/d/07pzkLHQ" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/91P1jZV4HBL._SL1500_.jpg" alt="Cover for Reasons and Persons" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">Reasons and Persons</div>
+              <div class="book-author">Derek Parfit</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0eWzmjln" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/71JXLQ3gKUL._SL1200_.jpg" alt="Cover for Life Ascending: The Ten Great Inventions of Evolution" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">Life Ascending: The Ten Great Inventions of Evolution</div>
+              <div class="book-author">Nick Lane</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/09vuAB8y" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/61zgbfLrD5L._SL1002_.jpg" alt="Cover for The Epigenetics Revolution" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">The Epigenetics Revolution</div>
+              <div class="book-author">Nessa Carey</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0e62F80d" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/71piwvkH0sL._SL1500_.jpg" alt="Cover for The Intelligent Investor, 3rd Ed." loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">The Intelligent Investor, 3rd Ed.</div>
+              <div class="book-author">Benjamin Graham</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0eILELRD" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/91CAy8EFVmL._SL1500_.jpg" alt="Cover for I Contain Multitudes" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">I Contain Multitudes</div>
+              <div class="book-author">Ed Yong</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
+          <a class="book-card" href="https://a.co/d/0f4vWtWX" target="_blank" rel="noopener noreferrer">
+            <div class="book-card-media">
+              <img class="book-cover" src="https://m.media-amazon.com/images/I/712nUD2i4kL._SL1500_.jpg" alt="Cover for Buffett: The Making of an American Capitalist" loading="lazy">
+            </div>
+            <div class="book-card-body">
+              <div class="book-card-title">Buffett: The Making of an American Capitalist</div>
+              <div class="book-author">Roger Lowenstein</div>
+              <div class="book-card-link">Open on Amazon</div>
+            </div>
+          </a>
         </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/09UI7xUn" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/81HQ9iYNM8L._SL1500_.jpg" alt="Cover for The Good Soldier Svejk and His Fortunes in the World War" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/09UI7xUn" target="_blank" rel="noopener noreferrer">The Good Soldier Svejk and His Fortunes in the World War</a>
-          <div class="book-author">Jaroslav Hasek</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0jeGhPQN" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/51-vc5zG83L.jpg" alt="Cover for The Twelve Chairs" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0jeGhPQN" target="_blank" rel="noopener noreferrer">The Twelve Chairs</a>
-          <div class="book-author">Ilya Ilf</div>
-        </div>
-      </div>
+      </section>
 
     </div>
-  </div>
-
-  <div class="style-tile">
-    <h3>Non-fiction</h3>
-
-    <div class="style-embed">
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/07pzkLHQ" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/91P1jZV4HBL._SL1500_.jpg" alt="Cover for Reasons and Persons" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/07pzkLHQ" target="_blank" rel="noopener noreferrer">Reasons and Persons</a>
-          <div class="book-author">Derek Parfit</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0eWzmjln" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/71JXLQ3gKUL._SL1200_.jpg" alt="Cover for Life Ascending: The Ten Great Inventions of Evolution" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0eWzmjln" target="_blank" rel="noopener noreferrer">Life Ascending: The Ten Great Inventions of Evolution</a>
-          <div class="book-author">Nick Lane</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/09vuAB8y" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/61zgbfLrD5L._SL1002_.jpg" alt="Cover for The Epigenetics Revolution" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/09vuAB8y" target="_blank" rel="noopener noreferrer">The Epigenetics Revolution</a>
-          <div class="book-author">Nessa Carey</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0e62F80d" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/71piwvkH0sL._SL1500_.jpg" alt="Cover for The Intelligent Investor, 3rd Ed." loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0e62F80d" target="_blank" rel="noopener noreferrer">The Intelligent Investor, 3rd Ed.</a>
-          <div class="book-author">Benjamin Graham</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0eILELRD" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/91CAy8EFVmL._SL1500_.jpg" alt="Cover for I Contain Multitudes" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0eILELRD" target="_blank" rel="noopener noreferrer">I Contain Multitudes</a>
-          <div class="book-author">Ed Yong</div>
-        </div>
-      </div>
-
-      <div class="book-item">
-        <a class="book-cover-link" href="https://a.co/d/0f4vWtWX" target="_blank" rel="noopener noreferrer">
-          <img class="book-cover" src="https://m.media-amazon.com/images/I/712nUD2i4kL._SL1500_.jpg" alt="Cover for Buffett: The Making of an American Capitalist" loading="lazy">
-        </a>
-        <div class="book-content">
-          <a class="book-title inline-link" href="https://a.co/d/0f4vWtWX" target="_blank" rel="noopener noreferrer">Buffett: The Making of an American Capitalist</a>
-          <div class="book-author">Roger Lowenstein</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
+  </section>
 </div>
 <!-- BOOKS:END -->
+
+<script>
+  (function () {
+    function formatBookCount(count) {
+      return count + " book" + (count === 1 ? "" : "s");
+    }
+
+    function activateShelf(tab) {
+      if (!tab) return;
+
+      var panelId = tab.getAttribute("data-panel");
+      var nextPanel = panelId ? document.getElementById("books-panel-" + panelId) : null;
+      var categoryNode = document.getElementById("books-active-category");
+      var countNode = document.getElementById("books-active-count");
+
+      if (!nextPanel || !categoryNode || !countNode) return;
+
+      document.querySelectorAll(".books-category-tab.is-active").forEach(function (node) {
+        node.classList.remove("is-active");
+        node.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("is-active");
+      tab.setAttribute("aria-selected", "true");
+
+      document.querySelectorAll(".books-category-panel[data-panel]").forEach(function (panel) {
+        panel.hidden = panel !== nextPanel;
+      });
+
+      categoryNode.textContent = nextPanel.getAttribute("data-section-name") || "Books";
+      countNode.textContent = formatBookCount(Number(nextPanel.getAttribute("data-book-count") || "0"));
+    }
+
+    function init() {
+      var tabs = document.querySelectorAll(".books-category-tab[data-panel]");
+      tabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          activateShelf(tab);
+        });
+      });
+
+      var initialTab = document.querySelector(".books-category-tab.is-active") || tabs[0];
+      if (initialTab) {
+        activateShelf(initialTab);
+      }
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>
 
 </body>
 </html>
