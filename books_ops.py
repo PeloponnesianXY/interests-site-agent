@@ -21,8 +21,8 @@ SECTION_ORDER = {
 }
 
 SUBSECTION_ORDER = {
-    "non-fiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetic", "Microbiology"],
-    "nonfiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetic", "Microbiology"],
+    "non-fiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetics", "Microbiology"],
+    "nonfiction": ["Philosophy", "Evolutionary Biology", "Investing", "Genetics", "Microbiology"],
     "fiction": ["Sci-Fi", "Murder Mystery", "Historical Satire"],
 }
 

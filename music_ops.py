@@ -213,7 +213,6 @@ def render_music_block(store: dict[str, Any]) -> str:
             lines.append(f'              <span class="music-track-title">{title}</span>')
             lines.append('              <span class="music-track-action">Load player</span>')
             lines.append("            </span>")
-            lines.append('            <span class="music-track-glow" aria-hidden="true"></span>')
             lines.append("          </button>")
 
         if not songs:
