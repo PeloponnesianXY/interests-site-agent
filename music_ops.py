@@ -87,29 +87,92 @@ def ensure_section(store: dict[str, Any], name: str) -> dict[str, Any]:
     return section
 
 
+def _spotify_share_url(embed_url: str) -> str:
+    parsed = parse_spotify_url(embed_url)
+    if not parsed:
+        return embed_url
+    kind, item_id, _ = parsed
+    return f"https://open.spotify.com/{kind}/{item_id}"
+
+
 def render_music_block(store: dict[str, Any]) -> str:
-    lines: list[str] = ['<div class="styles-grid">']
+    first_song: dict[str, str] | None = None
+    first_section_name = ""
+    for section in store.get("sections", []):
+        songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
+        if songs:
+            first_song = songs[0]
+            first_section_name = str(section.get("name", "Untitled"))
+            break
+
+    if first_song:
+        default_title = html.escape(str(first_song.get("title", "Spotify Embed")))
+        default_embed_url = html.escape(str(first_song.get("url", "")))
+        default_share_url = html.escape(_spotify_share_url(str(first_song.get("url", ""))))
+        default_section = html.escape(first_section_name or "Unsorted")
+    else:
+        default_title = "No track selected"
+        default_embed_url = ""
+        default_share_url = "#"
+        default_section = "Music"
+
+    lines: list[str] = ['<div class="music-layout">']
+    lines.append("")
+    lines.append('  <section class="music-player-panel">')
+    lines.append('    <div class="music-player-copy">')
+    lines.append('      <div class="music-kicker">Now Playing</div>')
+    lines.append(f'      <h3 class="music-player-section" id="music-player-section">{default_section}</h3>')
+    lines.append(f'      <div class="music-player-title" id="music-player-title">{default_title}</div>')
+    lines.append(
+        '      <a class="music-player-link inline-link" id="music-player-link" '
+        f'href="{default_share_url}" target="_blank" rel="noopener noreferrer">Open in Spotify</a>'
+    )
+    lines.append("    </div>")
+    lines.append("")
+    if default_embed_url:
+        lines.append(
+            '    <iframe class="spotify music-player-frame" id="music-player-frame" '
+            f'title="{default_title}" src="{default_embed_url}" width="100%" height="152" '
+            'frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" '
+            'loading="lazy" scrolling="no"></iframe>'
+        )
+    else:
+        lines.append('    <div class="music-player-empty" id="music-player-empty">No songs yet.</div>')
+    lines.append("  </section>")
+    lines.append("")
+    lines.append('  <div class="music-sections">')
 
     for section in store.get("sections", []):
         section_name = html.escape(str(section.get("name", "Untitled")))
+        songs = [song for song in section.get("songs", []) if isinstance(song, dict)]
         lines.append("")
-        lines.append('  <div class="style-tile">')
+        lines.append('    <div class="style-tile music-section-tile">')
         lines.append(f"    <h3>{section_name}</h3>")
         lines.append("")
-        lines.append('    <div class="style-embed">')
+        lines.append('      <div class="music-song-list">')
 
-        for song in section.get("songs", []):
+        for song in songs:
             title = html.escape(str(song.get("title", "Spotify Embed")))
-            url = html.escape(str(song.get("url", "")))
+            url_raw = str(song.get("url", ""))
+            url = html.escape(url_raw)
+            share_url = html.escape(_spotify_share_url(url_raw))
             lines.append(
-                f'      <div class="spotify-shell" data-src="{url}" data-title="{title}" aria-label="{title}"></div>'
+                '        <button class="music-song-button" type="button" '
+                f'data-src="{url}" data-title="{title}" data-share-url="{share_url}" '
+                f'data-section="{section_name}" aria-label="Play {title} from {section_name}">'
             )
-            lines.append("")
+            lines.append(f'          <span class="music-song-title">{title}</span>')
+            lines.append('          <span class="music-song-action">Play</span>')
+            lines.append("        </button>")
 
+        if not songs:
+            lines.append('        <div class="music-empty">No songs yet.</div>')
+
+        lines.append("      </div>")
         lines.append("    </div>")
-        lines.append("  </div>")
 
     lines.append("")
+    lines.append("  </div>")
     lines.append("</div>")
     return "\n".join(lines)
 
