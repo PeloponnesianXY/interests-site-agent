@@ -2,8 +2,6 @@ body {
   background: #111;
   color: white;
   font-family: Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
   padding: 40px;
   background-repeat: no-repeat;
   background-size: cover;
@@ -809,8 +807,6 @@ body.page-books {
 @media (max-width: 640px) {
   body {
     padding: 20px;
-    font-size: 18px;
-    line-height: 1.6;
   }
 
   h2,
@@ -823,11 +819,6 @@ body.page-books {
     margin-bottom: 16px;
   }
 
-  p,
-  li {
-    font-size: 18px;
-  }
-
   .top-nav {
     gap: 12px;
     margin: 6px 0 16px;
@@ -836,7 +827,7 @@ body.page-books {
 
   .top-nav a,
   .inline-link {
-    font-size: 17px;
+    font-size: 19px;
   }
 
   .styles-grid {
@@ -862,12 +853,22 @@ body.page-books {
   }
 
   .music-kicker,
+  .music-track-index,
   .music-genre-count,
   .music-track-tag,
   .music-player-chip,
+  .music-track-action,
+  .books-category-count,
+  .books-subsection-count,
   .books-summary-pill,
-  .book-card-link {
-    font-size: 13px;
+  .book-card-link,
+  .book-cover-placeholder {
+    font-size: 15px;
+  }
+
+  .music-rail-title,
+  .books-rail-title {
+    font-size: 32px;
   }
 
   .music-rail-caption,
@@ -880,14 +881,14 @@ body.page-books {
   .books-summary-author,
   .books-summary-body,
   .book-empty {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .music-genre-name,
   .music-track-title,
   .books-category-name,
   .books-summary-section {
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .music-stage {
@@ -897,7 +898,7 @@ body.page-books {
 
   .music-stage-title,
   .music-player-title {
-    font-size: 26px;
+    font-size: 30px;
     max-width: none;
   }
 
@@ -932,7 +933,7 @@ body.page-books {
   }
 
   .books-stage-title {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   .books-card-grid {
@@ -948,11 +949,11 @@ body.page-books {
   }
 
   .books-summary-title {
-    font-size: 26px;
+    font-size: 30px;
   }
 
   .book-card-title {
-    font-size: 22px;
+    font-size: 26px;
   }
 }
 
