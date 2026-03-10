@@ -13,7 +13,6 @@
 <h2>My Interests</h2>
 
 <nav class="top-nav" aria-label="Main navigation">
-  <a href="home.html">Home</a>
   <a href="index.html">Music</a>
   <a class="active" href="books.html" aria-current="page">Books</a>
   <a href="barcelona.html">FC Barcelona</a>
@@ -250,6 +249,21 @@
 
 <script>
   (function () {
+    function isMobileBooksLayout() {
+      return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+    }
+
+    function revealSummaryPanel() {
+      var summaryPanel = document.querySelector(".books-summary-panel");
+      if (!summaryPanel || !isMobileBooksLayout()) return;
+
+      var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      summaryPanel.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "start"
+      });
+    }
+
     function formatBookCount(count) {
       return count + " book" + (count === 1 ? "" : "s");
     }
@@ -332,6 +346,7 @@
       cards.forEach(function (card) {
         card.addEventListener("click", function () {
           updateSummary(card);
+          revealSummaryPanel();
         });
       });
 

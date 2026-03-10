@@ -14,7 +14,6 @@
 <h2>My Interests</h2>
 
 <nav class="top-nav" aria-label="Main navigation">
-  <a href="home.html">Home</a>
   <a class="active" href="index.html" aria-current="page">Music</a>
   <a href="books.html">Books</a>
   <a href="barcelona.html">FC Barcelona</a>
@@ -345,6 +344,21 @@
 
 <script>
   (function () {
+    function isMobileMusicLayout() {
+      return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+    }
+
+    function revealPlayerPanel() {
+      var playerPanel = document.querySelector(".music-player-panel");
+      if (!playerPanel || !isMobileMusicLayout()) return;
+
+      var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      playerPanel.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "start"
+      });
+    }
+
     function formatTrackCount(count) {
       return count + " track" + (count === 1 ? "" : "s");
     }
@@ -422,6 +436,7 @@
       tiles.forEach(function (tile) {
         tile.addEventListener("click", function () {
           updatePlayer(tile);
+          revealPlayerPanel();
         });
       });
 

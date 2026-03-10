@@ -845,6 +845,19 @@ body.page-books {
     position: static;
   }
 
+  .music-genre-rail {
+    order: 1;
+  }
+
+  .music-player-panel {
+    order: 2;
+    scroll-margin-top: 18px;
+  }
+
+  .music-stage {
+    order: 3;
+  }
+
   .music-genre-tabs {
     grid-auto-flow: column;
     grid-auto-columns: minmax(180px, 1fr);
@@ -896,6 +909,10 @@ body.page-books {
     padding: 20px;
   }
 
+  .music-stage-header {
+    margin-bottom: 18px;
+  }
+
   .music-stage-title,
   .music-player-title {
     font-size: 30px;
@@ -920,6 +937,19 @@ body.page-books {
     position: static;
   }
 
+  .books-rail {
+    order: 1;
+  }
+
+  .books-summary-panel {
+    order: 2;
+    scroll-margin-top: 18px;
+  }
+
+  .books-stage {
+    order: 3;
+  }
+
   .books-category-tabs {
     grid-auto-flow: column;
     grid-auto-columns: minmax(180px, 1fr);
@@ -930,6 +960,10 @@ body.page-books {
   .books-stage {
     min-height: auto;
     padding: 20px;
+  }
+
+  .books-stage-header {
+    margin-bottom: 18px;
   }
 
   .books-stage-title {
