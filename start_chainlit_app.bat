@@ -5,11 +5,29 @@ cd /d "%~dp0"
 set "DEBUG=false"
 set "HOST=127.0.0.1"
 set "PORT=8000"
-set "PYTHON_EXE=C:\Users\ilyam\AppData\Local\Programs\Python\Python313\python.exe"
+set "PYTHON_EXE="
 
-if not exist "%PYTHON_EXE%" (
-  echo Python was not found at:
-  echo %PYTHON_EXE%
+if exist "%~dp0.venv\Scripts\python.exe" (
+  set "PYTHON_EXE=%~dp0.venv\Scripts\python.exe"
+)
+
+if not defined PYTHON_EXE (
+  where py >nul 2>nul
+  if not errorlevel 1 (
+    set "PYTHON_EXE=py"
+  )
+)
+
+if not defined PYTHON_EXE (
+  where python >nul 2>nul
+  if not errorlevel 1 (
+    set "PYTHON_EXE=python"
+  )
+)
+
+if not defined PYTHON_EXE (
+  echo Python was not found.
+  echo Install Python or create a local .venv for this project.
   echo.
   pause
   exit /b 1
@@ -25,6 +43,7 @@ if errorlevel 1 (
 )
 
 echo Starting Chainlit on http://%HOST%:%PORT%
+echo Using Python launcher: %PYTHON_EXE%
 
 echo Press Ctrl+C in this window to stop it.
 echo.
