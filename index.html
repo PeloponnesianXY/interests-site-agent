@@ -36,7 +36,7 @@
       </button>
       <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-80s-rock-2" data-panel="80s-rock-2">
         <span class="music-genre-name">80s Rock</span>
-        <span class="music-genre-count">3</span>
+        <span class="music-genre-count">4</span>
       </button>
       <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-90s-rock-3" data-panel="90s-rock-3">
         <span class="music-genre-name">90s Rock</span>
@@ -56,7 +56,7 @@
       </button>
       <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-israeli-rock-7" data-panel="israeli-rock-7">
         <span class="music-genre-name">Israeli Rock</span>
-        <span class="music-genre-count">3</span>
+        <span class="music-genre-count">4</span>
       </button>
       <button class="music-genre-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-modern-indie-8" data-panel="modern-indie-8">
         <span class="music-genre-name">Modern Indie</span>
@@ -121,7 +121,7 @@
           </button>
         </div>
       </section>
-      <section class="music-genre-panel" id="panel-80s-rock-2" data-panel="80s-rock-2" data-section-name="80s Rock" data-track-count="3" hidden>
+      <section class="music-genre-panel" id="panel-80s-rock-2" data-panel="80s-rock-2" data-section-name="80s Rock" data-track-count="4" hidden>
         <div class="music-track-grid">
           <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/263aNAQCeFSWipk896byo6?utm_source=generator" data-title="Friday I&#x27;m in Love" data-share-url="https://open.spotify.com/track/263aNAQCeFSWipk896byo6" data-section="80s Rock" aria-label="Play Friday I&#x27;m in Love from 80s Rock">
             <span class="music-track-index">01</span>
@@ -141,6 +141,13 @@
             <span class="music-track-index">03</span>
             <span class="music-track-copy">
               <span class="music-track-title">Hold Back the Rain - 2009 Remaster</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/6J2rMSRhgb4HuX6dWgM3nJ?utm_source=generator" data-title="I Melt with You" data-share-url="https://open.spotify.com/track/6J2rMSRhgb4HuX6dWgM3nJ" data-section="80s Rock" aria-label="Play I Melt with You from 80s Rock">
+            <span class="music-track-index">04</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">I Melt with You</span>
               <span class="music-track-action">Load player</span>
             </span>
           </button>
@@ -232,7 +239,7 @@
           </button>
         </div>
       </section>
-      <section class="music-genre-panel" id="panel-israeli-rock-7" data-panel="israeli-rock-7" data-section-name="Israeli Rock" data-track-count="3" hidden>
+      <section class="music-genre-panel" id="panel-israeli-rock-7" data-panel="israeli-rock-7" data-section-name="Israeli Rock" data-track-count="4" hidden>
         <div class="music-track-grid">
           <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/3KjK86Zg2gKF9aij1GmHFk?utm_source=generator" data-title="אהובתי" data-share-url="https://open.spotify.com/track/3KjK86Zg2gKF9aij1GmHFk" data-section="Israeli Rock" aria-label="Play אהובתי from Israeli Rock">
             <span class="music-track-index">01</span>
@@ -252,6 +259,13 @@
             <span class="music-track-index">03</span>
             <span class="music-track-copy">
               <span class="music-track-title">יהיה פיצוץ</span>
+              <span class="music-track-action">Load player</span>
+            </span>
+          </button>
+          <button class="music-track-tile" type="button" data-src="https://open.spotify.com/embed/track/4PA5UwwLNIPUoAoIkwBTjr?utm_source=generator" data-title="מכה אפורה" data-share-url="https://open.spotify.com/track/4PA5UwwLNIPUoAoIkwBTjr" data-section="Israeli Rock" aria-label="Play מכה אפורה from Israeli Rock">
+            <span class="music-track-index">04</span>
+            <span class="music-track-copy">
+              <span class="music-track-title">מכה אפורה</span>
               <span class="music-track-action">Load player</span>
             </span>
           </button>
@@ -423,6 +437,24 @@
       }
     }
 
+    function activateGenreFromHash() {
+      var hash = (window.location.hash || "").replace(/^#/, "");
+      if (!hash) return false;
+
+      var panel = document.getElementById(hash);
+      if (!panel || !panel.classList.contains("music-genre-panel")) return false;
+
+      var panelId = panel.getAttribute("data-panel");
+      if (!panelId) return false;
+
+      var tab = document.querySelector('.music-genre-tab[data-panel="' + panelId + '"]');
+      if (!tab) return false;
+
+      activateGenre(tab);
+      panel.scrollIntoView({ behavior: "auto", block: "start" });
+      return true;
+    }
+
     function init() {
       var tabs = document.querySelectorAll(".music-genre-tab[data-panel]");
       var tiles = document.querySelectorAll(".music-track-tile[data-src]");
@@ -430,6 +462,10 @@
       tabs.forEach(function (tab) {
         tab.addEventListener("click", function () {
           activateGenre(tab);
+          var panelId = tab.getAttribute("data-panel");
+          if (panelId) {
+            window.location.hash = "panel-" + panelId;
+          }
         });
       });
 
@@ -441,7 +477,9 @@
       });
 
       var initialTab = document.querySelector(".music-genre-tab.is-active") || tabs[0];
-      if (initialTab) {
+      if (activateGenreFromHash()) {
+        return;
+      } else if (initialTab) {
         activateGenre(initialTab);
       } else if (tiles.length) {
         updatePlayer(tiles[0]);

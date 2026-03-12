@@ -5,6 +5,7 @@ __pycache__/
 API keys.txt
 Maffekhot/
 .langgraph_api/
+.files/
 desktop.ini
 mlflow-example/
 .chainlit/translations/

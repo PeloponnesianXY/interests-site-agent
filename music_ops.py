@@ -100,6 +100,20 @@ def _slugify(text: str) -> str:
     return slug or "section"
 
 
+def _section_panel_id(store: dict[str, Any], section_name: str) -> str:
+    sections = [
+        section
+        for section in store.get("sections", [])
+        if isinstance(section, dict)
+    ]
+    sections = sorted(sections, key=lambda section: str(section.get("name", "")).casefold())
+    for index, section in enumerate(sections, start=1):
+        name = str(section.get("name", "")).strip()
+        if normalize(name) == normalize(section_name):
+            return f"panel-{_slugify(name)}-{index}"
+    return ""
+
+
 def render_music_block(store: dict[str, Any]) -> str:
     sections = [
         section
@@ -340,6 +354,7 @@ def upsert_song(section: str, title: str, url: str, dry_run: bool = False) -> di
                 "section": target_section.get("name", section_name),
                 "title": song_title,
                 "url": canonical_url,
+                "site_anchor": _section_panel_id(store, str(target_section.get("name", section_name))),
             }
 
         if url_key in known_urls:
@@ -349,6 +364,7 @@ def upsert_song(section: str, title: str, url: str, dry_run: bool = False) -> di
                 "section": target_section.get("name", section_name),
                 "title": song_title,
                 "url": canonical_url,
+                "site_anchor": _section_panel_id(store, str(target_section.get("name", section_name))),
             }
 
         target_section["songs"].append({"title": song_title, "url": canonical_url})
@@ -362,6 +378,7 @@ def upsert_song(section: str, title: str, url: str, dry_run: bool = False) -> di
             "section": target_section.get("name", section_name),
             "title": song_title,
             "url": canonical_url,
+            "site_anchor": _section_panel_id(store, str(target_section.get("name", section_name))),
         }
     except Exception as exc:
         return {

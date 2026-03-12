@@ -56,16 +56,24 @@ def _format_result(state: AgentState) -> str:
         lines.append("")
         lines.append("Added:")
         for result in added:
+            site_hint = ""
+            if result.get("site_anchor"):
+                site_hint = f" -> index.html#{result.get('site_anchor')}"
             lines.append(
-                f"- [{result.get('section', 'Unsorted')}] {result.get('title', 'Untitled')} ({result.get('url', '')})"
+                f"- [{result.get('section', 'Unsorted')}] {result.get('title', 'Untitled')} "
+                f"({result.get('url', '')}){site_hint}"
             )
 
     if skipped:
         lines.append("")
         lines.append("Skipped:")
         for result in skipped:
+            site_hint = ""
+            if result.get("site_anchor"):
+                site_hint = f" Open: index.html#{result.get('site_anchor')}"
             lines.append(
-                f"- [{result.get('section', 'Unsorted')}] {result.get('title', 'Untitled')}: {result.get('reason', '')}"
+                f"- [{result.get('section', 'Unsorted')}] {result.get('title', 'Untitled')}: "
+                f"{result.get('reason', '')}.{site_hint}"
             )
 
     if errors:
@@ -144,9 +152,9 @@ async def on_message(message: cl.Message) -> None:
 
     progress.content = _format_result(state)
     progress.elements = [
-        cl.File(name="music.json", path="music.json", display="inline"),
-        cl.File(name="books.json", path="books.json", display="inline"),
-        cl.File(name="index.html", path="index.html", display="inline"),
-        cl.File(name="books.html", path="books.html", display="inline"),
+        cl.File(name="music.json", path="music.json", display="side"),
+        cl.File(name="books.json", path="books.json", display="side"),
+        cl.File(name="index.html", path="index.html", display="side"),
+        cl.File(name="books.html", path="books.html", display="side"),
     ]
     await progress.update()
