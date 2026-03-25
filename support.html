@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Support | Fortune Cookie Daily</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Support for Fortune Cookie Daily">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="page-support">
+
+<h2>My Interests</h2>
+
+<nav class="top-nav" aria-label="Main navigation">
+  <a href="index.html">Music</a>
+  <a href="books.html">Books</a>
+  <a href="barcelona.html">FC Barcelona</a>
+  <a href="about.html">About</a>
+  <a class="active" href="support.html" aria-current="page">Support</a>
+</nav>
+
+<main class="support-shell">
+  <section class="support-card">
+    <div class="support-hero">
+      <div class="support-icon-wrap" aria-hidden="true">
+        <img class="support-app-icon" src="fortune-cookie-icon.png" alt="Fortune Cookie app icon">
+      </div>
+      <p class="support-kicker">Fortune Cookie Daily Support</p>
+    </div>
+    <h1>Need help?</h1>
+
+    <form class="support-form" id="support-form" action="https://formsubmit.co/imeyzin@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Fortune Cookie Support Request">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+
+      <label class="sr-only" for="support-message">Support message</label>
+      <textarea id="support-message" name="message" class="support-input" rows="8" placeholder="Send a note and it will be forwarded to the site admin..." required></textarea>
+      <button type="submit" class="support-submit" id="support-submit">Submit</button>
+    </form>
+
+    <p class="support-confirmation" id="support-confirmation" hidden>Your note is on its way.</p>
+    <p class="support-error" id="support-error" hidden>Something went wrong. Please try again later.</p>
+  </section>
+</main>
+
+<script>
+  const form = document.getElementById('support-form');
+  const submitButton = document.getElementById('support-submit');
+  const confirmation = document.getElementById('support-confirmation');
+  const errorMessage = document.getElementById('support-error');
+
+  if (form && submitButton && confirmation && errorMessage) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      confirmation.hidden = true;
+      errorMessage.hidden = true;
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+
+        form.reset();
+        confirmation.hidden = false;
+      } catch (error) {
+        errorMessage.hidden = false;
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit';
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
