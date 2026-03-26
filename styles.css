@@ -138,8 +138,25 @@ body.page-support {
 
 .support-card h1 {
   margin: 0;
-  font-size: clamp(34px, 5vw, 52px);
-  line-height: 1;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.1;
+}
+
+.support-policy {
+  margin-bottom: 24px;
+}
+
+.support-policy-title {
+  margin: 0 0 10px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.support-policy-copy {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .support-copy,
