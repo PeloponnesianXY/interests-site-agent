@@ -88,8 +88,9 @@ body.page-support {
 
 .support-shell {
   min-height: calc(100vh - 170px);
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
   padding: 24px 0 56px;
 }
 
